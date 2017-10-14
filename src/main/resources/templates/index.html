@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap 3.3.7 -->
+    <link type="text/css" href="../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <title>Title</title>
+</head>
+<body>
+<!--页面头部 包括搜索框，tab卡-->
+<div class="head">
+    <div class="head-top">
+        <div class="wrapper">
+
+            <div style="float: left">
+                <span><a href="javascript:;" id="js-header-login">登录</a></span>
+                | <span><a href="javascript:;" id="js-header-register">注册</a></span>
+                <span>
+                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                        href="index.html"
+                        th:href="@{/manage/logout}">退出</a>
+                </span>
+                <span><a style="margin-left: 10px" id="J_addFavorite" href="javascript:;">进入后台</a></span>
+                <span style="float: right; display: none">
+                    <a href="zs.html" th:href="@{/portal/zs}">招商合作入驻</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div style="height: 80px;">
+    <div class="col-sm-5" style="height: 50px;"></div>
+    <div class="col-sm-3" style="padding-top: 28px;">
+        <div class="row">
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">搜索</button>
+                    </span>
+            </div>&lt;!&ndash; /input-group &ndash;&gt;
+        </div>
+    </div>
+    <div class="col-sm-4" style="height: 50px;"></div>
+</div>-->
+<!--#23527c-->
+<div style="height: 80px;background-color: #66afe9;margin-bottom:20px;">
+    <div class="col-sm-5" style="height: 50px;text-align: center">
+        <p style="font-size:35px;font-style: oblique;font-weight: bolder;padding: 15px;color: white">云渊盛</p>
+    </div>
+    <div class="col-sm-3" style="padding-top: 28px;">
+        <div class="row">
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">搜索</button>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4" style="height: 50px;"></div>
+</div>
+<!--页面列表-->
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="row" style="height: 1px;background-color: #337ab7;margin-bottom:10px;"></div>
+        <div class="row">
+            <div class="col-sm-6 col-md-3 goods-item">
+                <div class="thumbnail goods-content">
+                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                        <p>
+                            【原价98元】券后【38元】包邮
+                            领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c4
+
+                            抢购：https://detail.tmall.com/item.htm?id=534732081478
+
+                            智能防水，远程拍照，触控操作，高清双向通
+                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                        <p>
+                            【原价98元】券后【38元】包邮
+                            领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c4
+
+                            抢购：https://detail.tmall.com/item.htm?id=534732081478
+
+                            智能防水，远程拍照，触控操作，高清双向通
+                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                        <p>
+                            【原价98元】券后【38元】包邮
+                            领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c4
+
+                            抢购：https://detail.tmall.com/item.htm?id=534732081478
+
+                            智能防水，远程拍照，触控操作，高清双向通
+                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail">
+                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                         alt="通用的占位符缩略图">
+                    <div class="caption">
+                        <p>
+                            【原价98元】券后【38元】包邮
+                            领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c4
+
+                            抢购：https://detail.tmall.com/item.htm?id=534732081478
+
+                            智能防水，远程拍照，触控操作，高清双向通
+                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--页码区域-->
+        <div class="row">
+            <div class="col-sm-12 col-md-4" style="text-align:right;padding-top: 28px;">共 <b>24885</b> 条</div>
+            <div class="col-sm-12 col-md-4">
+
+                <ul class="pagination">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                    <li><a href="#">尾页</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-4" style="text-align:left;padding: 28px;">
+                <div class="page_jump">到</div>
+                <select name="page" size="1" data-totalPage="5" data-select="1">
+                    <option>1</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../static/js/bootstrap/bootstrap.min.js"></script>
+</body>
+</html>
