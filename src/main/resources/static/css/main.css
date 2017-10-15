@@ -17,47 +17,41 @@ a:hover {
     background: #f5f5f5;
 }
 
+/*导航栏*/
+.myNav {
+    height: 80px;
+    background-color: #66afe9;
+    margin-bottom:20px;
+}
+.navLogo {
+    height: 50px;
+    text-align: center;
+}
+.logo {
+    font-size:35px;
+    font-style: oblique;
+    font-weight: bolder;
+    padding: 15px;
+    color: white
+}
+.search {
+    padding-top: 28px;
+}
+
+/*商品列表部分*/
+.lineStyle {
+    height: 1px;
+    background-color: #337ab7;
+    margin-bottom:10px;
+}
 .wrapper {
     width: 1200px;
     margin: 0 auto;
 }
+/*鼠标浮在商品上时的状态*/
 .goods-content:hover {
     border: #66afe9 solid;
 }
-/*main*/
-/*.goods-list {
-    width: 1200px;
-}
-.goods-list .goods-item {
-    width: 228px;
-    height:363px;
-    float: left;
-    margin-right: 12.5px;
-    box-sizing: border-box;
-    position: relative;
-    margin-bottom: 20px;
-    box-shadow: 1px 2px 5px 2px rgba(136, 136, 136, 0.21);
-}
-
-!*一行只显示5个商品*!
-.goods-list .goods-item:nth-of-type(5n+5) {
-    margin-right: 0;
-}
-
-.goods-list .goods-item .goods-item-content {
-    height:363px;
-}
-!*图片相关*!
-.goods-item-content .goods-img {
-    width: 228px;
-    height: 190px;
-    position: relative;
-}
-.goods-item-content .goods-img img {
-    width: 228px;
-    height: 190px;
-    vertical-align: middle;
-}*/
 
 /*分页部分*/
 .page_jump {
