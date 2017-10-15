@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>云渊盛</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap 3.3.7 -->
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/common.css">
+</head>
+<body>
+<!--页面头部 包括搜索框，tab卡-->
+<div class="head" style=" margin-bottom:20px;">
+    <div class="head-top">
+        <div class="wrapper">
+            <div style="float: left">
+                <span>
+                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                        href="index.html"
+                        th:href="@{/manage/logout}">退出</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主要部分-->
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="row lineStyle"></div>
+        <div class="row">
+            <div class="col-xs-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a
+                            href="#">添加商品</a></li>
+                    <li role="presentation"><a
+                            href="#">商品列表</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-9">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+</body>
+</html>

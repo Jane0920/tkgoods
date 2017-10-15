@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>云渊盛</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap 3.3.7 -->
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap-table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/common.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/goodList.css">
+</head>
+<body>
+<!--页面头部 包括搜索框，tab卡-->
+<div class="head" style=" margin-bottom:20px;">
+    <div class="head-top">
+        <div class="wrapper">
+            <div style="float: left">
+                <span>
+                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                        href="index.html"
+                        th:href="@{/manage/logout}">退出</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--主要部分-->
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="row lineStyle"></div>
+        <div class="row">
+            <div class="col-xs-2">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a
+                            href="#">添加商品</a></li>
+                    <li role="presentation" class="active"><a
+                            href="#">商品列表</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-10">
+                <div class="row" style="margin-bottom: 30px">
+                    <div class="col-sm-3">
+                        <label class="sr-only" for="goodTextSearch">文本</label>
+                        <input type="text" class="form-control" id="goodTextSearch" placeholder="请输入文本">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="sr-only" for="usernameSearch">来源</label>
+                        <input type="text" class="form-control" id="usernameSearch" placeholder="请输入用户名">
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="statusSearch">
+                            <option value="-1">选择状态</option>
+                            <option value="0">未审核</option>
+                            <option value="1">审核通过</option>
+                            <option value="2">审核失败</option>
+                            <option value="3">过期</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-default" id="goodSearch">搜索</button>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-hover table-center"
+                           id="goodTable" data-tableUrl="../../static/mock/goodList.json"
+                           th:attr="data-tableUrl=@{/manage/agency/agencyPidList}">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+<!--审核模态框-->
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="checkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="checkModalLabel">
+                    审核内容
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <input type="hidden" value="" id="goodId" />
+                            <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="yesBtn">
+                    通过
+                </button>
+                <button type="button" class="btn btn-primary" id="noBtn">
+                    拒绝
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!--/.modal-->
+<script src="../../static/js/jquery/jquery.min.js"></script>
+<script src="../../static/js/bootstrap/bootstrap.min.js"></script>
+<script src="../../static/js/bootstrap/bootstrap-table.js"></script>
+<script src="../../static/js/goodList.js"></script>
+</body>
+</html>
