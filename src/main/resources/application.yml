@@ -1,12 +1,21 @@
 spring:
   thymeleaf:
     cache: false
+    mode: HTML5
   datasource:
-    driver-class-name:com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
     username: taoke
     password: taoke
     url: jdbc:mysql://139.224.119.167/taoke?characterEncoding=utf-8&useSSL=false
   jpa:
     show-sql: true
+    generate-ddl: true
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+    static-locations: classpath:/static/css/,classpath:/static/css/bootstrap/,classpath:/static/images/,classpath:/static/js/,classpath:/static/js/bootstrap/
 server:
   context-path: /tkGoods
