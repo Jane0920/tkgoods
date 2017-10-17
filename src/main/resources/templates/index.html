@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://security.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +8,7 @@
     <link type="text/css" href="../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../static/css/main.css" th:href="@{/static/css/main.css}" />
     <link rel="stylesheet" type="text/css" href="../static/css/common.css" th:href="@{/static/css/common.css}" />
+    <link rel="stylesheet" type="text/css" href="../static/css/jquery/toastr.css" th:href="@{/static/css/jquery/toastr.css}" />
     <title>云渊盛</title>
 </head>
 <body>
@@ -16,13 +18,15 @@
         <div class="wrapper">
 
             <div style="float: left">
-                <span><a href="javascript:;" id="js-header-login" data-toggle="modal" data-target="#loginModal">登录</a></span>
-                | <span><a href="javascript:;" id="js-header-register" data-toggle="modal" data-target="#registerModal">注册</a></span>
-                <span>
-                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                <th:block sec:authorize="isAnonymous() && !isAuthenticated()">
+                <span id="js-header-login" data-toggle="modal" data-target="#loginModal">登录</span>
+                | <span id="js-header-register" data-toggle="modal" data-target="#registerModal">注册</span>
+                </th:block>
+                <th:block sec:authorize="!isAnonymous() && isAuthenticated()">
+                    <span sec:authentication="name">admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
                         href="index.html">退出</a>
-                </span>
                 <span><a style="margin-left: 10px" id="J_addFavorite" href="javascript:;">进入后台</a></span>
+                </th:block>
             </div>
         </div>
     </div>
@@ -40,17 +44,17 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" role="form" id="loginForm">
                     <div class="form-group">
                         <label for="usernameL" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="usernameL" placeholder="请输入名字" />
+                            <input type="text" class="form-control" id="usernameL" name="username" placeholder="请输入名字" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="passwordL" class="col-sm-2 control-label">密码</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="passwordL" placeholder="请输入姓" />
+                            <input type="password" class="form-control" id="passwordL" name="password" placeholder="请输入姓" />
                         </div>
                     </div>
                 </form>
@@ -98,7 +102,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="registerBtn">
+                <button type="button" form="registerForm" class="btn btn-primary" id="registerBtn">
                     注册
                 </button>
             </div>
@@ -242,5 +246,10 @@
 <script src="../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
 <script src="../static/js/jquery/jquery.validate.min.js" th:src="@{/static/js/jquery/jquery.validate.min.js}"></script>
 <script src="../static/js/bootstrap/bootstrap.min.js" th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
+<script src="../static/js/index.js" th:src="@{/static/js/index.js}"></script>
+<script src="../static/js/jquery/toastr.js" th:src="@{/static/js/jquery/toastr.js}"></script>
+<script type="application/javascript">
+    toastr.options.positionClass = 'toast-center-center';
+</script>
 </body>
 </html>
