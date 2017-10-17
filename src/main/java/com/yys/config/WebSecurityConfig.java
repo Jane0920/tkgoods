@@ -52,7 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login").permitAll().and()
                 // 退出请求的默认路径为logout，下面改为signout，
                 // 成功退出登录后的url可以用logoutSuccessUrl设置
-                .logout().logoutUrl("/signout").logoutSuccessUrl("/login_page").permitAll();
+                .logout().logoutUrl("/signout").logoutSuccessUrl("/login_page").permitAll().and()
+                // 关闭csrf
+                .csrf().disable();
     }
 
     @Override
