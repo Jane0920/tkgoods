@@ -1,5 +1,6 @@
 package com.yys.controller;
 
+import com.yys.dao.GoodTextRepository;
 import com.yys.po.GoodText;
 import com.yys.service.GoodTextService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 /**
  * Created by xyr on 2017/10/16.
  */
@@ -18,6 +21,8 @@ public class IndexController {
 
     @Autowired
     private GoodTextService goodTextService;
+    @Autowired
+    private GoodTextRepository goodTextRepository;
 
     @RequestMapping({"/", "/index"})
     public String index() {
@@ -39,6 +44,7 @@ public class IndexController {
         if (pageable.getPageSize() != 12)
             pageable = new PageRequest(pageable.getPageNumber(), 12, pageable.getSort());
 
+        List<GoodText> goodTextList = goodTextRepository.findAll();
         Page<GoodText> goodTextPage = goodTextService.getGood(searchContent, pageable);
         model.addAttribute("list", goodTextPage);
 
