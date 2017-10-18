@@ -31,6 +31,6 @@
 
 /*商品列表部分*/
 /*鼠标浮在商品上时的状态*/
-.goods-content:hover .hoverContent {
+.goods-item:hover .hoverContent{
     display: block;
 }
