@@ -29,6 +29,7 @@ a:hover {
 }
 
 .divOverflow {
+    max-width: 293px;
     max-height: 140px;
     overflow: hidden;
     text-overflow: ellipsis;

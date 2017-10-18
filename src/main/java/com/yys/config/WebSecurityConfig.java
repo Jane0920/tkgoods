@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/", "/login/**", "/index", "/register")
+        http.authorizeRequests().antMatchers("/", "/login/**", "/index", "/register", "/goodShow")
                 .permitAll()
                 // 其他地址的访问均需验证权限（需要登录）
                 .anyRequest().authenticated().and()

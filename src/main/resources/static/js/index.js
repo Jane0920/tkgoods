@@ -1,8 +1,9 @@
 /**
  * Created by xyr on 2017/10/17.
  */
+var BASE_URL = "/tkGoods";
 $(function () {
-    var BASE_URL = "/tkGoods"
+
     //注册
     $("#registerBtn").click(function () {
         $.ajax(BASE_URL + "/register", {
@@ -60,7 +61,7 @@ $(function () {
             }
         }
     });
-
+    //登录验证
     $("#loginForm").validate({
         rules: {
             username: "required",
@@ -77,6 +78,28 @@ $(function () {
             }
         }
     });
+
+    //搜索
+    $("#searchBtn").click(function () {
+        refresh(0);
+    });
+    //页码改变
+    $(".pagination").find("a").click(function () {
+        if (!$(this).hasClass("disabled"))
+            refresh($(this).attr("data-pageNum"));
+    });
+    $("select[name='page']").change(function () {
+        refresh($(this).val());
+    });
+
 });
 
+function refresh(pageNumber) {
+    var searchContent = $("#searchContent").val();
+    if (pageNumber == undefined || pageNumber == null)
+        pageNumber = 0;
+
+    window.location.href = BASE_URL + "/goodShow?" + "searchContent=" + searchContent + "&pageNumber=" + pageNumber +
+            "&pageSize=12";
+}
 

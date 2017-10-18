@@ -45,6 +45,18 @@
     height: 168px;
 }
 
-.goods-item:hover .goods-content{
-    border: 1px solid #01B4FF;
+/*页码区域*/
+.pagination .disabled {
+    padding: 7px 9px;
+    border: solid #eee 1px;
+    color: #cdcdcd;
+    font-size: 14px;
+    display: inline-block;
+    font-family: "Microsoft Yahei", sans-serif;
+    cursor: not-allowed;
+}
+.pagination .active {
+    border: none;
+    color: #218acb;
+    padding: 0;
 }
