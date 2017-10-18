@@ -1,7 +1,7 @@
 /*导航栏*/
 .myNav {
     height: 80px;
-    background-color: #66afe9;
+    background-color: #01B4FF;
     margin-bottom:20px;
 }
 .navLogo {
@@ -24,3 +24,4 @@
     display: inline-block;
     margin-right: 0;
 }
+

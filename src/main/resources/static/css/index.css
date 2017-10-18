@@ -34,3 +34,7 @@
 .goods-item:hover .hoverContent{
     display: block;
 }
+
+.goods-item:hover .goods-content{
+    border: 1px solid #01B4FF;
+}
