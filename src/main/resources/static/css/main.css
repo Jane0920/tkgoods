@@ -19,12 +19,6 @@
     padding-top: 28px;
 }
 
-/*商品列表部分*/
-/*鼠标浮在商品上时的状态*/
-.goods-content:hover {
-    border: #66afe9 solid;
-}
-
 /*分页部分*/
 .page_jump {
     display: inline-block;

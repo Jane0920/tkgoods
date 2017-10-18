@@ -32,8 +32,3 @@ a:hover {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-.popover {
-    max-width: 276px;
-    background-color: #fff;
-}

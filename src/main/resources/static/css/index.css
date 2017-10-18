@@ -1,0 +1,36 @@
+.hoverContent {
+    display: none;
+    top: 150px;
+    right: -295px;
+    position: absolute;
+    background: rgba(27, 40, 48, .9);
+    border-radius: 4px;
+    padding: 12px;
+    z-index: 999;
+    word-break: break-all;
+    font-size: 12px;
+    text-align: left;
+    width: 300px;
+    line-height: 20px;
+    color: #EBF1F4;
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+.hoverContent::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 7px solid transparent;
+    border-top: 7px solid transparent;
+    border-right: 7px solid rgba(27, 40, 48, .9);
+    border-left: none;
+    position: absolute;
+    left: -7px;
+    bottom: 51%;
+}
+
+/*商品列表部分*/
+/*鼠标浮在商品上时的状态*/
+.goods-content:hover .hoverContent {
+    display: block;
+}
