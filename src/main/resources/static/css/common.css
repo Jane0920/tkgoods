@@ -27,3 +27,13 @@ a:hover {
     background-color: #337ab7;
     margin-bottom:20px;
 }
+
+.divOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.popover {
+    max-width: 276px;
+    background-color: #fff;
+}

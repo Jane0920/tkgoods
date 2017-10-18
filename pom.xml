@@ -46,6 +46,8 @@
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<!-- springboot给的默认版本容易导致冲突ClassNotFoundException: org.thymeleaf.dialect.IExpressionEnh -->
+			<version>3.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -39,13 +39,11 @@ $(function () {
             username: "required",
             password: {
                 required: true,
-                minlength: 8,
-                maxlength: 12
+                rangelength:[8,12]
             },
             passwordSure: {
                 required: true,
-                minlength: 8,
-                maxlength: 12,
+                rangelength:[8,12],
                 equalTo: "#passwordR"
             }
         },
@@ -53,13 +51,11 @@ $(function () {
             username: "请输入用户名",
             password: {
                 required: "请输入密码",
-                minlength: "密码长度至少8位",
-                maxlength: "密码长度最多12位"
+                rangelength: "密码长度要介于8到12之间"
             },
             passwordSure: {
                 required: "请输入确认密码",
-                minlength: "确认密码长度至少8位",
-                maxlength: "密码长度最多12位",
+                rangelength: "密码长度要介于8到12之间",
                 equalTo: "两次输入不符"
             }
         }
@@ -70,16 +66,14 @@ $(function () {
             username: "required",
             password: {
                 required: "请输入密码",
-                minlength: "密码长度至少8位",
-                maxlength: "密码长度最多12位"
+                rangelength:[8,12]
             }
         },
         messages: {
             username: "请输入用户名",
             password: {
                 required: "请输入密码",
-                minlength: "密码长度至少8位",
-                maxlength: "密码长度最多12位"
+                rangelength: "密码长度要介于8到12之间"
             }
         }
     });
