@@ -44,7 +44,6 @@ public class IndexController {
         if (pageable.getPageSize() != 12)
             pageable = new PageRequest(pageable.getPageNumber(), 12, pageable.getSort());
 
-        List<GoodText> goodTextList = goodTextRepository.findAll();
         Page<GoodText> goodTextPage = goodTextService.getGood(searchContent, pageable);
         model.addAttribute("list", goodTextPage);
 

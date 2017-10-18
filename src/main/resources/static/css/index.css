@@ -44,19 +44,3 @@
     width: 293px;
     height: 168px;
 }
-
-/*页码区域*/
-.pagination .disabled {
-    padding: 7px 9px;
-    border: solid #eee 1px;
-    color: #cdcdcd;
-    font-size: 14px;
-    display: inline-block;
-    font-family: "Microsoft Yahei", sans-serif;
-    cursor: not-allowed;
-}
-.pagination .active {
-    border: none;
-    color: #218acb;
-    padding: 0;
-}

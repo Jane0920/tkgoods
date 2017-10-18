@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by xyr on 2017/10/18.
@@ -33,8 +34,8 @@ public class GoodTextServiceImpl implements GoodTextService {
                 predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), searchContent));
 
             //在有效期内
-            predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(LocalDate.class), LocalDate.now()));
-            predicate = cb.and(predicate, cb.greaterThanOrEqualTo(root.get("endTime").as(LocalDate.class), LocalDate.now()));
+            predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(Date.class), new Date()));
+            predicate = cb.and(predicate, cb.greaterThanOrEqualTo(root.get("endTime").as(Date.class), new Date()));
             //审核状态为审核通过
             predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), 1));
 

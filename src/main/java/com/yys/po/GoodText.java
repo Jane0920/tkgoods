@@ -9,6 +9,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Created by xyr on 2017/10/18.
@@ -53,30 +54,26 @@ public class GoodText {
     /**
      * 创建时间
      */
-    @Column(columnDefinition = "datetime")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    @Column(columnDefinition = "datetime")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     /**
      * 开始展示时间
      */
-    @Column(columnDefinition = "date")
-    private LocalDate startTime;
+    private Date startTime;
 
     /**
      * 展示截止时间
      */
-    @Column(columnDefinition = "date")
-    private LocalDate endTime;
+    private Date endTime;
 
     /**
      * 是否被创建者删除
      */
-    private boolean isDelete;
+    private boolean hasDelete;
 
 }
