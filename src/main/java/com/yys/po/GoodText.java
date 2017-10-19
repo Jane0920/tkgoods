@@ -1,8 +1,10 @@
 package com.yys.po;
 
 import lombok.Data;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -54,22 +56,31 @@ public class GoodText {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @Column(columnDefinition = "datetime")
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    @Column(columnDefinition = "datetime")
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    private LocalDateTime updateTime;
 
     /**
      * 开始展示时间
      */
-    private Date startTime;
+    @Column(columnDefinition = "date")
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate startTime;
 
     /**
      * 展示截止时间
+     * @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)用于LocalDate和数据库的date属性之间的转换
      */
-    private Date endTime;
+    @Column(columnDefinition = "date")
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate endTime;
 
     /**
      * 是否被创建者删除

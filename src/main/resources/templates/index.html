@@ -395,25 +395,24 @@
             <div class="col-sm-12 col-md-4">
 
                 <ul class="pagination">
-                    <li><a data-pageNum="1" th:class="${list.first}? 'active disabled': ''"
-                           class="disabled">首页</a></li>
-                    <li><a th:data-pageNum="${list.number}" class="disabled" data-pageNum="4"
-                           th:class="${list.hasPrevious()}? '':'disabled'">&laquo;</a></li>
-                    <li th:each="sliceInfo:${#numbers.sequence(-2,2)}"
+                    <li th:class="${list.first}? 'active disabled': ''"
+                        class="disabled"><a data-pageNum="1">首页</a></li>
+                    <li class="disabled" th:class="${list.hasPrevious()}? '':'disabled'">
+                        <a th:data-pageNum="${list.number}" data-pageNum="4">&laquo;</a></li>
+                    <li th:each="sliceInfo:${#numbers.sequence(-2,2)}" th:class="${sliceInfo==0?'active':''}"
                         th:if="${list.number+sliceInfo>=0 && list.number+sliceInfo<list.totalPages}">
-                        <a th:text="${list.number+sliceInfo+1}" th:data-pageNum="${list.number+sliceInfo+1}" data-pageNum="1"
-                        th:class="${sliceInfo==0?'active':''}">1</a>
+                        <a th:text="${list.number+sliceInfo+1}" th:data-pageNum="${list.number+sliceInfo+1}" data-pageNum="1">1</a>
                     </li>
-                    <li><a th:data-pageNum="${list.number+2}" data-pageNum="6"
-                           th:class="${list.hasNext()}? '':'disabled'">&raquo;</a></li>
-                    <li><a th:class="${list.last}? 'active disabled': ''"
-                           class="disabled" data-pageNum="249" th:data-pageNum="${list.totalPages}">尾页</a></li>
+                    <li th:class="${list.hasNext()}? '':'disabled'"><a th:data-pageNum="${list.number+2}" data-pageNum="6">&raquo;</a></li>
+                    <li th:class="${list.last}? 'active disabled': ''"
+                        class="disabled"><a data-pageNum="249" th:data-pageNum="${list.totalPages}">尾页</a></li>
                 </ul>
             </div>
             <div class="col-sm-12 col-md-4" style="text-align:left;padding: 28px;">
                 <div class="page_jump">到</div>
                 <select name="page" size="1" data-totalPage="5" data-select="1"
                         th:data-totalPage="${list.totalPages}" th:data-select="${list.number+1}">
+                    <option th:each="num:${list.totalPages != null && list.totalPages > 1? #numbers.sequence(1,list.totalPages):1}" th:value="${num}" th:text="${num}" ></option>
                 </select>
             </div>
         </div>

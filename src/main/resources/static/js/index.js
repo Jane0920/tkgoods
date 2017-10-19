@@ -4,6 +4,8 @@
 var BASE_URL = "/tkGoods";
 $(function () {
 
+    selected();
+
     //注册
     $("#registerBtn").click(function () {
         $.ajax(BASE_URL + "/register", {
@@ -81,7 +83,7 @@ $(function () {
 
     //搜索
     $("#searchBtn").click(function () {
-        refresh(0);
+        refresh(1);
     });
     //页码改变
     $(".pagination").find("a").click(function () {
@@ -99,7 +101,13 @@ function refresh(pageNumber) {
     if (pageNumber == undefined || pageNumber == null)
         pageNumber = 0;
 
-    window.location.href = BASE_URL + "/goodShow?" + "searchContent=" + searchContent + "&pageNumber=" + pageNumber +
-            "&pageSize=12";
+    window.location.href = BASE_URL + "/goodShow?" + "searchContent=" + searchContent + "&page=" + pageNumber +
+            "&size=12";
+}
+
+//选中的下拉框
+function selected() {
+    var current = $("select[name='page']").attr('data-select');
+    $("select[name='page']  option[value='"+ current +"']").attr("selected", true);
 }
 

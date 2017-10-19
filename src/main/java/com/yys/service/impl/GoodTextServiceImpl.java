@@ -3,6 +3,7 @@ package com.yys.service.impl;
 import com.yys.dao.GoodTextRepository;
 import com.yys.po.GoodText;
 import com.yys.service.GoodTextService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by xyr on 2017/10/18.
@@ -30,12 +30,12 @@ public class GoodTextServiceImpl implements GoodTextService {
         return goodTextRepository.findAll((Root<GoodText> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Predicate predicate = cb.isTrue(cb.literal(true));
 
-            if (searchContent != null)
-                predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), searchContent));
+            if (!StringUtils.isBlank(searchContent))
+                predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), "%" + searchContent + "%"));
 
             //在有效期内
-            predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(Date.class), new Date()));
-            predicate = cb.and(predicate, cb.greaterThanOrEqualTo(root.get("endTime").as(Date.class), new Date()));
+            predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(LocalDate.class), LocalDate.now()));
+            predicate = cb.and(predicate, cb.greaterThanOrEqualTo(root.get("endTime").as(LocalDate.class), LocalDate.now()));
             //审核状态为审核通过
             predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), 1));
 

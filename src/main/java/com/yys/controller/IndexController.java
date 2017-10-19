@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +38,12 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/goodShow")
-    public String goodShow(String searchContent, Pageable pageable, Model model) {
-
-        if (pageable == null)
-            pageable = new PageRequest(0, 12);
-        if (pageable.getPageSize() != 12)
-            pageable = new PageRequest(pageable.getPageNumber(), 12, pageable.getSort());
+    public String goodShow(String searchContent, @PageableDefault(page = 0, size = 12) Pageable pageable, Model model) {
+        if (pageable.getPageSize() != 4)
+            pageable = new PageRequest(pageable.getPageNumber()-1, 12, pageable.getSort());
+        else
+            pageable = new PageRequest(pageable.getPageNumber() == 0? pageable.getPageNumber():(pageable.getPageNumber() - 1),
+                    pageable.getPageSize(), pageable.getSort());
 
         Page<GoodText> goodTextPage = goodTextService.getGood(searchContent, pageable);
         model.addAttribute("list", goodTextPage);
