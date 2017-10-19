@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://security.thymeleaf.org" lang="en">
 <head>
     <title>云渊盛</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Bootstrap 3.3.7 -->
-    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="../../static/css/bootstrap/bootstrap-table.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../static/css/common.css">
-    <link rel="stylesheet" type="text/css" href="../../static/css/goodList.css">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap-table.css" th:href="@{/static/css/bootstrap/bootstrap-table.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/goodList.css" th:href="@{/static/css/goodList.css}">
 </head>
 <body>
 <!--页面头部 包括搜索框，tab卡-->
@@ -17,9 +17,10 @@
         <div class="wrapper">
             <div style="float: left">
                 <span>
-                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
-                        href="index.html"
-                        th:href="@{/manage/logout}">退出</a>
+                    <th:block sec:authorize="!isAnonymous() && isAuthenticated()">
+                    <span sec:authentication="name">admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                            href="index.html" th:href="@{/logout}">退出</a>
+                    </th:block>
                 </span>
             </div>
         </div>
@@ -45,7 +46,7 @@
                         <label class="sr-only" for="goodTextSearch">文本</label>
                         <input type="text" class="form-control" id="goodTextSearch" placeholder="请输入文本">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3"  sec:authorize="hasRole('ROLE_ADMIN')">
                         <label class="sr-only" for="usernameSearch">来源</label>
                         <input type="text" class="form-control" id="usernameSearch" placeholder="请输入用户名">
                     </div>
@@ -63,7 +64,7 @@
                 <div class="row">
                     <table class="table table-bordered table-hover table-center"
                            id="goodTable" data-tableUrl="../../static/mock/goodList.json"
-                           th:attr="data-tableUrl=@{/manage/agency/agencyPidList}">
+                           th:attr="data-tableUrl=@{/manage/goodList}">
                     </table>
                 </div>
             </div>
@@ -114,9 +115,12 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!--/.modal-->
-<script src="../../static/js/jquery/jquery.min.js"></script>
-<script src="../../static/js/bootstrap/bootstrap.min.js"></script>
-<script src="../../static/js/bootstrap/bootstrap-table.js"></script>
-<script src="../../static/js/goodList.js"></script>
+<script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
+<script src="../../static/js/bootstrap/bootstrap.min.js" th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
+<script src="../../static/js/bootstrap/bootstrap-table.js" th:src="@{/static/js/bootstrap/bootstrap-table.js}"></script>
+<script type="application/javascript">
+    var isAdmin = [[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]];
+</script>
+<script src="../../static/js/goodList.js" th:src="@{/static/js/goodList.js}"></script>
 </body>
 </html>

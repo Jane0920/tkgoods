@@ -56,7 +56,15 @@ function initTable(userId) {
             {
                 title:'状态',
                 field:'status',
-                align:'center'
+                align:'center',
+                formatter: function (value,row,index) {
+                    if (value == 0)
+                        return "未审核";
+                    else if (value == 1)
+                        return "审核通过";
+                    else
+                        return "审核失败";
+                }
             },
             {
                 title:'来源',
@@ -84,7 +92,7 @@ function initTable(userId) {
         ],
         striped: true,  //表格显示条纹
         pagination: true, //启动分页
-        pageSize: 4,  //每页显示的记录数
+        pageSize: 6,  //每页显示的记录数
         pageNumber: 1, //当前第几页
         pageList: [5, 10, 15, 20, 25],  //记录数可选列表
         search: false,  //是否启用查询
@@ -98,7 +106,7 @@ function initTable(userId) {
             var param = {
                 pageNumber: params.pageNumber,
                 pageSize: params.pageSize,
-                userId: userId,
+                //userId: userId,
                 text: text,
                 username: username,
                 status: status
@@ -112,7 +120,8 @@ function initTable(userId) {
 function operateFormatter(value,row,index){
     var arr = [];
     arr.push('<button class="btn btn-primary editGood">编辑</button> ');
-    arr.push('<button class="btn btn-primary checkGood" data-toggle="modal" data-target="#checkModal">审核</button> ');
+    if (isAdmin)
+        arr.push('<button class="btn btn-primary checkGood" data-toggle="modal" data-target="#checkModal">审核</button> ');
     arr.push('<button class="btn btn-primary deleteGood">删除</button>');
     return arr.join('');
 }

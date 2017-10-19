@@ -1,5 +1,6 @@
 package com.yys.service.impl;
 
+import com.yys.common.GoodStatusCommon;
 import com.yys.dao.GoodTextRepository;
 import com.yys.po.GoodText;
 import com.yys.service.GoodTextService;
@@ -37,7 +38,28 @@ public class GoodTextServiceImpl implements GoodTextService {
             predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(LocalDate.class), LocalDate.now()));
             predicate = cb.and(predicate, cb.greaterThanOrEqualTo(root.get("endTime").as(LocalDate.class), LocalDate.now()));
             //审核状态为审核通过
-            predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), 1));
+            predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), GoodStatusCommon.CHECKSUCCESS));
+
+            return predicate;
+        }, pageable);
+    }
+
+    @Override
+    public Page<GoodText> getGood(String text, int status, String username, boolean isAdmin, Pageable pageable) {
+        return goodTextRepository.findAll((Root<GoodText> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+            Predicate predicate = cb.isTrue(cb.literal(true));
+
+            if (!StringUtils.isBlank(username) && isAdmin)
+                predicate = cb.and(predicate, cb.like(root.get("username").as(String.class), "%" + username + "%"));
+            else if (!StringUtils.isBlank(username) && !isAdmin)
+                predicate = cb.and(predicate, cb.equal(root.get("username").as(String.class), username));
+            if (!StringUtils.isBlank(text))
+                predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), "%" + text + "%"));
+            if (status != -1)
+                predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), status));
+
+            if (!isAdmin)
+                predicate = cb.and(predicate, cb.equal(root.get("hasDelete").as(Boolean.class), false));
 
             return predicate;
         }, pageable);

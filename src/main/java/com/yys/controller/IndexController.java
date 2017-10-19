@@ -40,7 +40,8 @@ public class IndexController {
     @RequestMapping("/goodShow")
     public String goodShow(String searchContent, @PageableDefault(page = 0, size = 12) Pageable pageable, Model model) {
         if (pageable.getPageSize() != 4)
-            pageable = new PageRequest(pageable.getPageNumber()-1, 12, pageable.getSort());
+            pageable = new PageRequest(pageable.getPageNumber() == 0? pageable.getPageNumber():(pageable.getPageNumber() - 1),
+                    12, pageable.getSort());
         else
             pageable = new PageRequest(pageable.getPageNumber() == 0? pageable.getPageNumber():(pageable.getPageNumber() - 1),
                     pageable.getPageSize(), pageable.getSort());

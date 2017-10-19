@@ -19,7 +19,7 @@ public abstract class Login implements UserDetails{
 
     public final static String Role_User_Value = "USER";
     public final static String Role_User = "ROLE_" + Role_User_Value;
-    public final static String Role_Admin_Value = "Agency";
+    public final static String Role_Admin_Value = "ADMIN";
     public final static String Role_Admin = "ROLE_" + Role_Admin_Value;
 
     /**

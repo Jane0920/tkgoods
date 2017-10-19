@@ -14,4 +14,9 @@ public interface GoodTextService {
      */
     Page<GoodText> getGood(String searchContent, Pageable pageable);
 
+    /**
+     * 后台管理展示
+     */
+    Page<GoodText> getGood(String text, int status, String username, boolean isAdmin, Pageable pageable);
+
 }

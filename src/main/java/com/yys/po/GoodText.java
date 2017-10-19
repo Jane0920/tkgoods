@@ -1,5 +1,12 @@
 package com.yys.po;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yys.common.GoodStatusCommon;
+import com.yys.dto.Selection;
+import com.yys.dto.SimpleSelection;
+import com.yys.enums.GoodStatusEnum;
+import com.yys.util.LocalDateUtil;
+import com.yys.util.serialize.LocalDate2StrSerialize;
 import lombok.Data;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
@@ -11,7 +18,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by xyr on 2017/10/18.
@@ -41,6 +50,7 @@ public class GoodText {
     /**
      * 商品状态 0-未审核，1-审核通过（前台显示），2-审核失败
      */
+    @JsonSerialize()
     private int status;
 
     /**
@@ -72,6 +82,7 @@ public class GoodText {
      */
     @Column(columnDefinition = "date")
     @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    @JsonSerialize(using = LocalDate2StrSerialize.class)
     private LocalDate startTime;
 
     /**
@@ -80,11 +91,65 @@ public class GoodText {
      */
     @Column(columnDefinition = "date")
     @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    @JsonSerialize(using = LocalDate2StrSerialize.class)
     private LocalDate endTime;
 
     /**
      * 是否被创建者删除
      */
     private boolean hasDelete;
+
+    /*public static List<Selection<GoodText, ?>> getSelection() {
+        return Arrays.asList(
+                new SimpleSelection<GoodText, String>("id", "id"),
+                new SimpleSelection<GoodText, String>("image", "image"),
+                new SimpleSelection<GoodText, String>("text", "text"),
+                new Selection<GoodText, Object>() {
+
+                    @Override
+                    public Object apply(GoodText goodText) {
+                        LocalDate now = LocalDate.now();
+                        if (now.isBefore(goodText.startTime) || now.isAfter(goodText.endTime))
+                            return GoodStatusEnum.TIMEOVER.getMessage();
+                        if (goodText.status == GoodStatusEnum.UNCHECK.getCode())
+                            return GoodStatusEnum.UNCHECK.getMessage();
+                        else if (goodText.status == GoodStatusEnum.CHECKSUCCESS.getCode())
+                            return GoodStatusEnum.CHECKSUCCESS.getMessage();
+                        else
+                            return GoodStatusEnum.CHECKFAILURE.getMessage();
+                    }
+
+                    @Override
+                    public String getName() {
+                        return "status";
+                    }
+                },
+                new SimpleSelection<GoodText, String>("username", "username"),
+                new Selection<GoodText, Object>() {
+
+                    @Override
+                    public Object apply(GoodText goodText) {
+                        return goodText.startTime == null? "": LocalDateUtil.toStr(goodText.startTime);
+                    }
+
+                    @Override
+                    public String getName() {
+                        return "startTime";
+                    }
+                },
+                new Selection<GoodText, Object>() {
+
+                    @Override
+                    public Object apply(GoodText goodText) {
+                        return goodText.endTime == null? "": LocalDateUtil.toStr(goodText.endTime);
+                    }
+
+                    @Override
+                    public String getName() {
+                        return "endTime";
+                    }
+                }
+        );
+    }*/
 
 }
