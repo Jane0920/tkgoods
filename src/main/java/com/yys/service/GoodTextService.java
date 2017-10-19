@@ -11,12 +11,28 @@ public interface GoodTextService {
 
     /**
      * 前台商品展示
+     * @param searchContent 搜索的内容
+     * @param pageable
+     * @return
      */
     Page<GoodText> getGood(String searchContent, Pageable pageable);
 
     /**
      * 后台管理展示
+     * @param text 搜索的文本内容
+     * @param status 搜索的状态
+     * @param username 搜索的用户名
+     * @param isAdmin 是否为管理员
+     * @param pageable
+     * @return
      */
     Page<GoodText> getGood(String text, int status, String username, boolean isAdmin, Pageable pageable);
+
+    /**
+     * 获取商品详情
+     * @param id 商品id
+     * @return
+     */
+    GoodText goodDetail(String id);
 
 }

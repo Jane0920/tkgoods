@@ -64,4 +64,9 @@ public class GoodTextServiceImpl implements GoodTextService {
             return predicate;
         }, pageable);
     }
+
+    @Override
+    public GoodText goodDetail(String id) {
+        return goodTextRepository.findOne(id);
+    }
 }

@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2017/10/15.
  */
+var BASE_URL = "/tkGoods/manage";
 $(function () {
     var goodTable = $("#goodTable");
 
@@ -134,6 +135,15 @@ window.operateEvents = {
         $("#checkModal").on("show.bs.modal", function () {
             //当显示时加载数据
             $("#goodId").val(id);
+            $("#checkModal").on("show.bs.modal", function () {
+                $.ajax(BASE_URL + "/goodDetail/" + id, {
+                    method: 'get',
+                    success: function (result) {
+                        $("#goodImgCheck").attr("href", result.data.image);
+                        $("#goodTextCheck").val(result.data.text);
+                    }
+                });
+            })
         })
     },'click .deleteGood': function (e, value, row, index) { //删除
 
