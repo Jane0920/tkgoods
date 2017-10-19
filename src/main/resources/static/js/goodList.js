@@ -14,17 +14,19 @@ $(function () {
 
 $("#yesBtn").click(function () {
     //alert("审核通过，" + $("#goodId").val());
+
     $("#checkModal").modal('hide');
+    $("#goodIdCheck").val("");
 });
 
 $("#noBtn").click(function () {
     //alert("审核失败，" + $("#goodId").val());
     $("#checkModal").modal('hide');
+    $("#goodIdCheck").val("");
 });
 
 function initTable(userId) {
     var text = $("#goodTextSearch").val();
-    alert(text);
     var username = $("#usernameSearch").val();
     var status = $("#statusSearch").val();
     //先销毁表格
@@ -121,7 +123,7 @@ function initTable(userId) {
 function operateFormatter(value,row,index){
     var arr = [];
     arr.push('<button class="btn btn-primary editGood">编辑</button> ');
-    if (isAdmin)
+    //if (isAdmin)
         arr.push('<button class="btn btn-primary checkGood" data-toggle="modal" data-target="#checkModal">审核</button> ');
     arr.push('<button class="btn btn-primary deleteGood">删除</button>');
     return arr.join('');
@@ -134,18 +136,20 @@ window.operateEvents = {
         var id = row.id;
         $("#checkModal").on("show.bs.modal", function () {
             //当显示时加载数据
-            $("#goodId").val(id);
-            $("#checkModal").on("show.bs.modal", function () {
-                $.ajax(BASE_URL + "/goodDetail/" + id, {
-                    method: 'get',
-                    success: function (result) {
-                        $("#goodImgCheck").attr("href", result.data.image);
-                        $("#goodTextCheck").val(result.data.text);
-                    }
-                });
-            })
+            $("#goodIdCheck").val(id);
+            $.ajax(BASE_URL + "/goodDetail/" + id, {
+                method: 'get',
+                success: function (result) {
+                    $("#goodImgCheck").attr("src", result.data.image);
+                    $("#goodTextCheck").val(result.data.text);
+                }
+            });
         })
     },'click .deleteGood': function (e, value, row, index) { //删除
 
     }
 }
+
+$("#checkModal").on("hide.bs.modal",function () {
+    $("#goodIdCheck").val("");
+});

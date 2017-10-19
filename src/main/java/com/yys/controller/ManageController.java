@@ -1,5 +1,6 @@
 package com.yys.controller;
 
+import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
 import com.yys.po.Login;
 import com.yys.po.User;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.time.LocalDate;
 
 /**
  * Created by xyr on 2017/10/19.
@@ -65,9 +68,37 @@ public class ManageController {
     @RequestMapping("/goodDetail/{id}")
     @ResponseBody
     public ResultVo<GoodText> goodDetail(@PathVariable String id) {
+
         GoodText goodText = goodTextService.goodDetail(id);
 
         return ResultVo.success(goodText);
+    }
+
+    /**
+     * 审核商品
+     * @param login 登录者
+     * @param id 审核的商品id
+     * @param status 审核后的状态
+     * @param startTime 展示时间
+     * @param endTime 过期时间
+     * @return
+     */
+    @RequestMapping("/checkGood/{id}")
+    @ResponseBody
+    public ResultVo checkGood(@AuthenticationPrincipal Login login, @PathVariable String id,
+                              int status, LocalDate startTime, LocalDate endTime) {
+
+        //判断登录者身份
+        if (login instanceof User)
+            return ResultVo.error(ResultEnum.NO_PERMISSION.getCode(), ResultEnum.NO_PERMISSION.getMessage());
+
+        try {
+            return goodTextService.updateGoodStatus(id, status, startTime, endTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVo.error(ResultEnum.UPDATE_FAILURE.getCode(), ResultEnum.UPDATE_FAILURE.getMessage());
+        }
+
     }
 
 }

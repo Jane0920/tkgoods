@@ -12,7 +12,10 @@ public enum ResultEnum {
     REGISTER_FAILURE(2, "注册失败"),
     USERNAME_EXIT(3, "用户名已存在"),
     PASSWORD_NOT_EQUAL(4, "密码不相等"),
-    LOGIN_FAILURE(5, "用户名或密码错误")
+    LOGIN_FAILURE(5, "用户名或密码错误"),
+    NO_PERMISSION(6, "无权限操作"),
+    GOODS_NOT_EXIT(7, "商品不存在"),
+    UPDATE_FAILURE(8, "更新失败")
     ;
 
     private int code;

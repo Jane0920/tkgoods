@@ -1,8 +1,11 @@
 package com.yys.service;
 
 import com.yys.po.GoodText;
+import com.yys.vo.ResultVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 
 /**
  * Created by xyr on 2017/10/16.
@@ -34,5 +37,13 @@ public interface GoodTextService {
      * @return
      */
     GoodText goodDetail(String id);
+
+    ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime) throws Exception;
+
+    /**
+     * 更新商品
+     * @param goodText
+     */
+    void updateGoodText(GoodText goodText);
 
 }

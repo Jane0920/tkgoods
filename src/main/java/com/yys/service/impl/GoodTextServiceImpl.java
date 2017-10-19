@@ -2,13 +2,16 @@ package com.yys.service.impl;
 
 import com.yys.common.GoodStatusCommon;
 import com.yys.dao.GoodTextRepository;
+import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
 import com.yys.service.GoodTextService;
+import com.yys.vo.ResultVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -68,5 +71,27 @@ public class GoodTextServiceImpl implements GoodTextService {
     @Override
     public GoodText goodDetail(String id) {
         return goodTextRepository.findOne(id);
+    }
+
+    @Override
+    @Transactional
+    public ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime) throws Exception {
+        //获取商品
+        GoodText goodText = goodTextRepository.findOne(id);
+        if (goodText == null) {
+            return ResultVo.error(ResultEnum.GOODS_NOT_EXIT.getCode(), ResultEnum.GOODS_NOT_EXIT.getMessage());
+        }
+        //更新商品
+        goodText.setStatus(status);
+        goodText.setStartTime(startTime);
+        goodText.setEndTime(endTime);
+        //保存更新到数据库
+        goodText = goodTextRepository.saveAndFlush(goodText);
+        return ResultVo.success(goodText);
+    }
+
+    @Override
+    public void updateGoodText(GoodText goodText) {
+
     }
 }

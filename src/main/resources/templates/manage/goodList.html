@@ -7,6 +7,7 @@
     <!-- 引入 Bootstrap 3.3.7 -->
     <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
     <link type="text/css" href="../../static/css/bootstrap/bootstrap-table.css" th:href="@{/static/css/bootstrap/bootstrap-table.css}" rel="stylesheet">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap-datepicker.min.css" th:href="@{/static/css/bootstrap/bootstrap-datepicker.min.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/goodList.css" th:href="@{/static/css/goodList.css}">
 </head>
@@ -87,19 +88,24 @@
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <div class="col-sm-10">
-                            <input type="hidden" value="" id="goodId" />
-                            <img id="goodImgCheck" src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg">
+                        <div class="col-sm-10" style="text-align:center">
+                            <input type="hidden" value="" id="goodIdCheck" />
+                            <img id="goodImgCheck" style="border: 1px solid #01B4FF" src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <textarea id="goodTextCheck" class="form-control" rows="3"></textarea>
+                            <textarea id="goodTextCheck" class="form-control" rows="10"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-10">
-
+                        <label for="startTime" class="col-sm-2 control-label">展示时间</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="startTime">
+                        </div>
+                        <label for="endTime" class="col-sm-2 control-label">过期时间</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="endTime">
                         </div>
                     </div>
                 </form>
@@ -118,8 +124,38 @@
 <script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap.min.js" th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap-table.js" th:src="@{/static/js/bootstrap/bootstrap-table.js}"></script>
+<script src="../../static/js/bootstrap/bootstrap-datepicker.min.js" th:src="@{/static/js/bootstrap/bootstrap-datepicker.min.js}"></script>
 <script type="application/javascript">
-    var isAdmin = [[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]];
+    /*var isAdmin = [[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]];*/
+
+    function DatePicker(beginSelector, endSelector) {
+        // 仅选择日期
+        $(beginSelector).datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight : true,
+            startDate: new Date()
+        }).on('changeDate', function (ev) {
+            if (ev.date) {
+                $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+            } else {
+                $(endSelector).datepicker('setStartDate', null);
+            }
+        });
+        $(endSelector).datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight : true,
+            startDate: new Date()
+        }).on('changeDate', function (ev) {
+            if (ev.date) {
+                $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+            } else {
+                $(beginSelector).datepicker('setEndDate', new Date());
+            }
+        });
+    }
+    DatePicker( '#startTime', '#endTime');
 </script>
 <script src="../../static/js/goodList.js" th:src="@{/static/js/goodList.js}"></script>
 </body>
