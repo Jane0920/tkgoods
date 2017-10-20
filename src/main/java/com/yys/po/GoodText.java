@@ -19,9 +19,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by xyr on 2017/10/18.
