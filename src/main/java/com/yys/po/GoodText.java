@@ -9,6 +9,7 @@ import com.yys.util.LocalDateUtil;
 import com.yys.util.serialize.LocalDate2StrSerialize;
 import lombok.Data;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

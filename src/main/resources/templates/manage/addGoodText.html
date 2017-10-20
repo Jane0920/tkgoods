@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://security.thymeleaf.org" lang="en">
 <head>
     <title>云渊盛</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Bootstrap 3.3.7 -->
-    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../../static/css/common.css">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
+    <script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
 </head>
 <body>
 <!--页面头部 包括搜索框，tab卡-->
@@ -17,7 +18,9 @@
                 <span>
                     <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
                         href="index.html"
-                        th:href="@{/manage/logout}">退出</a>
+                        th:href="@{/manage/logout}">退出</a><a
+                        href="index.html"
+                        th:href="@{/index}">首页</a>
                 </span>
             </div>
         </div>
@@ -34,11 +37,11 @@
                     <li role="presentation" class="active"><a
                             href="#">添加商品</a></li>
                     <li role="presentation"><a
-                            href="#">商品列表</a></li>
+                            href="goodList.html" th:href="@{/manage/goodListHtml}">商品列表</a></li>
                 </ul>
             </div>
             <div class="col-xs-9">
-
+                <!--富文本位置-->
             </div>
         </div>
     </div>

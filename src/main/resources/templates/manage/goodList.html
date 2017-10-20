@@ -8,6 +8,7 @@
     <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
     <link type="text/css" href="../../static/css/bootstrap/bootstrap-table.css" th:href="@{/static/css/bootstrap/bootstrap-table.css}" rel="stylesheet">
     <link type="text/css" href="../../static/css/bootstrap/bootstrap-datepicker.min.css" th:href="@{/static/css/bootstrap/bootstrap-datepicker.min.css}" rel="stylesheet">
+    <link type="text/css" href="../../static/css/jquery/toastr.css" th:href="@{/static/css/jquery/toastr.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/goodList.css" th:href="@{/static/css/goodList.css}">
 </head>
@@ -20,7 +21,9 @@
                 <span>
                     <th:block sec:authorize="!isAnonymous() && isAuthenticated()">
                     <span sec:authentication="name">admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
-                            href="index.html" th:href="@{/logout}">退出</a>
+                            href="index.html" th:href="@{/logout}">退出</a><a
+                            href="index.html"
+                            th:href="@{/index}">首页</a>
                     </th:block>
                 </span>
             </div>
@@ -36,7 +39,7 @@
             <div class="col-xs-2">
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><a
-                            href="#">添加商品</a></li>
+                            href="addGoodText.html" th:href="@{/manage/addGoodTextHtml}">添加商品</a></li>
                     <li role="presentation" class="active"><a
                             href="#">商品列表</a></li>
                 </ul>
@@ -122,11 +125,12 @@
     </div><!-- /.modal-dialog -->
 </div><!--/.modal-->
 <script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
+<script src="../../static/js/jquery/toastr.js" th:src="@{/static/js/jquery/toastr.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap.min.js" th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap-table.js" th:src="@{/static/js/bootstrap/bootstrap-table.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap-datepicker.min.js" th:src="@{/static/js/bootstrap/bootstrap-datepicker.min.js}"></script>
 <script type="application/javascript">
-    /*var isAdmin = [[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]];*/
+    var isAdmin = [[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]];
 
     function DatePicker(beginSelector, endSelector) {
         // 仅选择日期
@@ -137,7 +141,10 @@
             startDate: new Date()
         }).on('changeDate', function (ev) {
             if (ev.date) {
-                $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()))
+                var date = new Date(ev.date.valueOf());
+                var plus = 3 * (1000 * 60 * 60 * 24);
+                $(endSelector).datepicker('setDate', new Date(date.getTime() + plus));
+                $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()));
             } else {
                 $(endSelector).datepicker('setStartDate', null);
             }

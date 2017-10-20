@@ -2,6 +2,7 @@ package com.yys.service.impl;
 
 import com.yys.common.GoodStatusCommon;
 import com.yys.dao.GoodTextRepository;
+import com.yys.enums.GoodStatusEnum;
 import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
 import com.yys.service.GoodTextService;
@@ -83,8 +84,11 @@ public class GoodTextServiceImpl implements GoodTextService {
         }
         //更新商品
         goodText.setStatus(status);
-        goodText.setStartTime(startTime);
-        goodText.setEndTime(endTime);
+        if (status == GoodStatusEnum.CHECKSUCCESS.getCode()) {
+            goodText.setStartTime(startTime);
+            goodText.setEndTime(endTime);
+        }
+
         //保存更新到数据库
         goodText = goodTextRepository.saveAndFlush(goodText);
         return ResultVo.success(goodText);
@@ -93,5 +97,24 @@ public class GoodTextServiceImpl implements GoodTextService {
     @Override
     public void updateGoodText(GoodText goodText) {
 
+    }
+
+    @Override
+    @Transactional
+    public ResultVo updateGoodDelete(String id) throws Exception {
+        GoodText goodText = goodTextRepository.findOne(id);
+        if (goodText == null)
+            return ResultVo.error(ResultEnum.UPDATE_FAILURE.getCode(), ResultEnum.UPDATE_FAILURE.getMessage());
+
+        goodText.setHasDelete(true);
+        goodTextRepository.saveAndFlush(goodText);
+        return ResultVo.success();
+    }
+
+    @Override
+    public ResultVo deleteGood(String id) throws Exception {
+        goodTextRepository.delete(id);
+
+        return ResultVo.success();
     }
 }

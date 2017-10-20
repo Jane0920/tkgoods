@@ -13,16 +13,48 @@ $(function () {
 });
 
 $("#yesBtn").click(function () {
-    //alert("审核通过，" + $("#goodId").val());
+    alert("审核通过，" + $("#goodIdCheck").val());
+    var id = $("#goodIdCheck").val();
+    $.ajax(BASE_URL + "/checkGood/" + id, {
+       method: 'post',
+       data:{
+           status: 1,
+           startTime: $("#startTime").val(),
+           endTime: $("#endTime").val()
+       },
+       success: function (result) {
+           if (result.code == 0) {
+               toastr.success("成功");
+               $("#checkModal").modal('hide');
+               $("#goodIdCheck").val("");
+               $('#goodTable').bootstrapTable("refresh");
+           } else {
+               toastr.error(result.msg);
+           }
+       }
+    });
 
-    $("#checkModal").modal('hide');
-    $("#goodIdCheck").val("");
 });
 
 $("#noBtn").click(function () {
     //alert("审核失败，" + $("#goodId").val());
-    $("#checkModal").modal('hide');
-    $("#goodIdCheck").val("");
+    var id = $("#goodIdCheck").val();
+    $.ajax(BASE_URL + "/checkGood/" + id, {
+        method: 'post',
+        data:{
+            status: 2
+        },
+        success: function (result) {
+            if (result.code == 0) {
+                toastr.success("成功");
+                $("#checkModal").modal('hide');
+                $("#goodIdCheck").val("");
+                $('#goodTable').bootstrapTable("refresh");
+            } else {
+                toastr.error(result.msg);
+            }
+        }
+    });
 });
 
 function initTable(userId) {
@@ -107,8 +139,8 @@ function initTable(userId) {
         queryParamsType: "undefined",
         queryParams: function queryParams(params) {   //设置查询参数
             var param = {
-                pageNumber: params.pageNumber,
-                pageSize: params.pageSize,
+                page: params.pageNumber-1,
+                size: params.pageSize,
                 //userId: userId,
                 text: text,
                 username: username,
@@ -123,9 +155,13 @@ function initTable(userId) {
 function operateFormatter(value,row,index){
     var arr = [];
     arr.push('<button class="btn btn-primary editGood">编辑</button> ');
-    //if (isAdmin)
-        arr.push('<button class="btn btn-primary checkGood" data-toggle="modal" data-target="#checkModal">审核</button> ');
-    arr.push('<button class="btn btn-primary deleteGood">删除</button>');
+    var now = new Date();
+    var startTime = new Date(row.startTime);
+    var endTime = new Date(row.endTime);
+    if (isAdmin && row.status != 1)
+        arr.push('<button class="btn btn-primary checkGood">审核</button> ');
+    if (row.status != 1 || (row.status == 1 && now > endTime))
+        arr.push('<button class="btn btn-primary deleteGood">删除</button>');
     return arr.join('');
 }
 
@@ -134,22 +170,29 @@ window.operateEvents = {
 
     },'click .checkGood': function (e, value, row, index) { //审核
         var id = row.id;
-        $("#checkModal").on("show.bs.modal", function () {
-            //当显示时加载数据
-            $("#goodIdCheck").val(id);
-            $.ajax(BASE_URL + "/goodDetail/" + id, {
-                method: 'get',
-                success: function (result) {
-                    $("#goodImgCheck").attr("src", result.data.image);
-                    $("#goodTextCheck").val(result.data.text);
-                }
-            });
-        })
+        //alert(id);
+        $("#goodIdCheck").val("");
+        //当显示时加载数据
+        $("#goodIdCheck").val(id);
+        $.ajax(BASE_URL + "/goodDetail/" + id, {
+            method: 'get',
+            success: function (result) {
+                $("#goodImgCheck").attr("src", result.data.image);
+                $("#goodTextCheck").val(result.data.text);
+                $("#checkModal").modal('show');
+            }
+        });
     },'click .deleteGood': function (e, value, row, index) { //删除
-
+        var id = row.id;
+        $.ajax(BASE_URL + "/deleteGood/" + id, {
+            method: 'get',
+            success: function (result) {
+                if (result.code == 0) {
+                    toastr.success("删除成功");
+                    $('#goodTable').bootstrapTable("refresh");
+                } else
+                    toastr.error("删除失败");
+            }
+        });
     }
 }
-
-$("#checkModal").on("hide.bs.modal",function () {
-    $("#goodIdCheck").val("");
-});

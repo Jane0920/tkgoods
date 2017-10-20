@@ -16,6 +16,8 @@ spring:
         content:
           enabled: true
           paths: /**
-    static-locations: classpath:/static/css/,classpath:/static/css/bootstrap/,classpath:/static/images/,classpath:/static/js/,classpath:/static/js/bootstrap/
+    static-locations:
+            classpath:/static/css/,classpath:/static/css/bootstrap/,classpath:/static/images/,classpath:/static/js/,classpath:/static/js/bootstrap/,
+            classpath:/static/ueditor/
 server:
   context-path: /tkGoods

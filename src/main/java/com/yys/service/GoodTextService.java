@@ -46,4 +46,18 @@ public interface GoodTextService {
      */
     void updateGoodText(GoodText goodText);
 
+    /**
+     * 更新删除状态
+     * @param id
+     * @return
+     */
+    ResultVo updateGoodDelete(String id) throws Exception;
+
+    /**
+     * 删除商品
+     * @param id
+     * @return
+     */
+    ResultVo deleteGood(String id) throws Exception;
+
 }

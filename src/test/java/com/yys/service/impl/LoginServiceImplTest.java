@@ -19,10 +19,13 @@ public class LoginServiceImplTest {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Test
     public void loadUserByUsername() throws Exception {
+        String password = passwordEncoder.encode("adminYYS123");
         loginService.loadUserByUsername("admin");
     }
 

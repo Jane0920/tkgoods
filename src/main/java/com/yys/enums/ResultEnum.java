@@ -15,7 +15,9 @@ public enum ResultEnum {
     LOGIN_FAILURE(5, "用户名或密码错误"),
     NO_PERMISSION(6, "无权限操作"),
     GOODS_NOT_EXIT(7, "商品不存在"),
-    UPDATE_FAILURE(8, "更新失败")
+    UPDATE_FAILURE(8, "更新失败"),
+    DELETE_FAILURE(9, "删除失败"),
+    DATE_NOT_SET(10, "时间不能为空")
     ;
 
     private int code;
