@@ -1,27 +1,13 @@
 package com.yys.po;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yys.common.GoodStatusCommon;
-import com.yys.dto.Selection;
-import com.yys.dto.SimpleSelection;
-import com.yys.enums.GoodStatusEnum;
-import com.yys.util.LocalDateUtil;
 import com.yys.util.serialize.LocalDate2StrSerialize;
 import lombok.Data;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by xyr on 2017/10/18.

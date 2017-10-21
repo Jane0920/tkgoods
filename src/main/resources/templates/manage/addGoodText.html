@@ -5,9 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入 Bootstrap 3.3.7 -->
-    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css" th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap.min.css"
+          th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
+    <!--<link href="../../static/js/kindeditor-4.1.10/themes/default/default.css" th:href="@{/static/js/kindeditor-4.1.10/themes/default/default.css}" type="text/css" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/addGoods.css" th:href="@{/static/css/addGoods.css}">
+
     <script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
+
+
 </head>
 <body>
 <!--页面头部 包括搜索框，tab卡-->
@@ -41,11 +47,103 @@
                 </ul>
             </div>
             <div class="col-xs-9">
-                <!--富文本位置-->
+
+                <form id="goodsAddForm" th:action="@{/upload/uploadPic}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"> 商品文案: </label>
+
+                        <div class="col-sm-10">
+                            <textarea type="text" id="text" name="text" placeholder="商品文案"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2">商品图片：</label>
+                        <div class="col-sm-10">
+                            <input type="file" accept="image/*" id="uploadFile" name="uploadFile"
+                                   onChange="submitPic()">
+                            <a class="btn btn-info" href="javascript:void(0);">上传商品图片</a>
+                            <p class="help-block">支持jpg、jpeg、png。大小不超过2M，建议尺寸：240 X 240px</p>
+                            <div class="up-after">
+                                <img id="pic_xm" src="../../static/white.jpg" th:src="@{/static/white.jpg}">
+                            </div>
+
+                            <input type="hidden" id="image" name="image"/>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="col-md-offset-3 col-md-9 form-action">
+                            <a class="btn btn-info" onclick="submitGoods()">
+                                <i class="icon-ok bigger-110"></i>
+                                提交
+                            </a>
+                            &nbsp; &nbsp; &nbsp;
+                            <button class="btn" type="reset">
+                                重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     <div class="col-sm-2"></div>
 </div>
+
+<script th:inline="javascript">
+    path = /*[[@{/}]]*/ "";
+</script>
+
+<!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/kindeditor-all-min.js" th:src="@{/static/js/kindeditor-4.1.10/kindeditor-all-min.js}"></script>-->
+<!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/lang/zh_CN.js" th:src="@{/static/js/kindeditor-4.1.10/lang/zh_CN.js}"></script>-->
+<!--<script type="text/javascript" src="../../static/js/common.js"   th:src="@{/static/js/common.js}"></script>-->
+<script src="../../static/js/jquery.form.js" th:src="@{/static/js/jquery.form.js}"></script>
+<script type="text/javascript">
+    /**
+     *图片上传功能
+     */
+    function submitPic() {
+        var option = {
+            url: path + "upload/uploadPic",//如果不写url就是默认使用要提交的表单中的url
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    if (data.error == '0') {//上传成功
+                        $("#pic_xm").attr("src", path + data.relativePath);
+                        $("#image").val(data.relativePath);
+                    } else {//上传失败
+                        alert("图片上传失败！")
+                        $("#pic_xm").attr("src", "");
+                        $("#image").val("");
+                    }
+                }
+            },
+            error: function () {
+                alert("上传失败");
+            }
+        };
+        //ajax方式提交表单，页面不会跳转（由jQuery-form提供）
+        $("#goodsAddForm").ajaxSubmit(option);
+    }
+
+    function submitGoods() {
+        alert($('#goodsAddForm').serialize());
+        $.ajax({
+            type: "POST",
+            url: path + "/manage/addGoods",
+            data: $('#goodsAddForm').serialize(),
+            async: false,
+            success: function (data) {
+                //商品添加成功
+                window.location.href = path + 'manage/goodListHtml';
+
+            },
+            error: function (request) {
+                alert("上传失败");
+            }
+
+        });
+    }
+</script>
 </body>
 </html>

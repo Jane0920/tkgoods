@@ -40,12 +40,12 @@ public class ManageController {
      */
     @RequestMapping("/goodListHtml")
     public String goodListHtml() {
-        return "/manage/goodList";
+        return "manage/goodList";
     }
 
     @RequestMapping("/addGoodTextHtml")
     public String addGoodTextHtml() {
-        return "/manage/addGoodText";
+        return "manage/addGoodText";
     }
 
     /**

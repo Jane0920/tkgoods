@@ -1,0 +1,33 @@
+#uploadFile {
+    position:absolute;
+    top: 3px;
+    left: 16px;
+    width: 105px;
+    height: 25px;
+    text-align: right;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    display: block;
+}
+
+#text {
+    width: 500px;
+    height: 200px;
+}
+
+.up-after{
+    margin: 10px 0;
+}
+#pic_xm {
+    margin: 0 10px 10px 0;
+    width: 240px;
+    height: 240px;
+    display: inline-block;
+    border: 1px solid rgb(169, 169, 169);
+    vertical-align: middle;
+}
+
+.form-action {
+    top:10px;
+}
