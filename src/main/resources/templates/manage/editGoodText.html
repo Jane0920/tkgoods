@@ -9,11 +9,13 @@
           th:href="@{/static/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../static/css/common.css" th:href="@{/static/css/common.css}">
     <!--<link href="../../static/js/kindeditor-4.1.10/themes/default/default.css" th:href="@{/static/js/kindeditor-4.1.10/themes/default/default.css}" type="text/css" rel="stylesheet">-->
+    <link type="text/css" href="../../static/css/bootstrap/bootstrap-datepicker.min.css" th:href="@{/static/css/bootstrap/bootstrap-datepicker.min.css}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../static/css/addGoods.css" th:href="@{/static/css/addGoods.css}">
-
+    <link type="text/css" href="../../static/css/jquery/toastr.css" th:href="@{/static/css/jquery/toastr.css}" rel="stylesheet">
     <script src="../../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
-
-
+    <script type="application/javascript">
+        var isAdmin = /*[[${#authorization.expression('hasRole(''ROLE_ADMIN'')')}]]*/"";
+    </script>
 </head>
 <body>
 <!--页面头部 包括搜索框，tab卡-->
@@ -42,20 +44,22 @@
         <div class="row">
             <div class="col-xs-3">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a
-                            href="#">添加商品</a></li>
                     <li role="presentation"><a
+                            href="addGoodText.html" th:href="@{/manage/addGoodTextHtml}">添加商品</a></li>
+                    <li role="presentation" class="active"><a
                             href="goodList.html" th:href="@{/manage/goodListHtml}">商品列表</a></li>
                 </ul>
             </div>
             <div class="col-xs-9">
-
+                <!--/*@thymesVar id="good" type="com.yys.po.GoodText"*/-->
+                <!--/*@thymesVar id="imageConfig" type="com.yys.config.ImageConfig"*/-->
                 <form id="goodsAddForm" th:action="@{/upload/uploadPic}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="col-sm-2 control-label"> 商品文案: </label>
 
                         <div class="col-sm-10">
-                            <textarea type="text" id="text" name="text" placeholder="商品文案"></textarea>
+                            <input name="id" th:value="${good.id}" type="hidden" />
+                            <textarea type="text" id="text" name="text" placeholder="商品文案" th:text="${good.text}"></textarea>
                         </div>
                     </div>
 
@@ -67,21 +71,32 @@
                             <a class="btn btn-info" href="javascript:void(0);">上传商品图片</a>
                             <p class="help-block">支持jpg、jpeg、png。大小不超过2M，建议尺寸：240 X 240px</p>
                             <div class="up-after">
-                                <img id="pic_xm" src="../../static/white.jpg" th:src="@{/static/white.jpg}">
+                                <img id="pic_xm" src="../../static/white.jpg" th:src="${good.imageSrc(imageConfig)}">
                             </div>
 
                             <input type="hidden" id="image" name="image"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <label class="col-sm-2 control-label"> 展示时间: </label>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="startTime" th:value="${good.startTime}">
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="endTime" th:value="${good.endTime}">
                         </div>
                     </div>
                     <div class="clearfix">
                         <div class="col-md-offset-3 col-md-9 form-action">
                             <a class="btn btn-info" onclick="submitGoods()">
                                 <i class="icon-ok bigger-110"></i>
-                                提交
+                                提交审核
                             </a>
                             &nbsp; &nbsp; &nbsp;
-                            <button class="btn" type="reset">
-                                重置
+                            <button class="btn" id="cancelBtn">
+                                取消
                             </button>
                         </div>
                     </div>
@@ -100,7 +115,41 @@
 <!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/lang/zh_CN.js" th:src="@{/static/js/kindeditor-4.1.10/lang/zh_CN.js}"></script>-->
 <!--<script type="text/javascript" src="../../static/js/common.js"   th:src="@{/static/js/common.js}"></script>-->
 <script src="../../static/js/jquery.form.js" th:src="@{/static/js/jquery.form.js}"></script>
+<script src="../../static/js/jquery/toastr.js" th:src="@{/static/js/jquery/toastr.js}"></script>
+<script src="../../static/js/bootstrap/bootstrap-datepicker.min.js" th:src="@{/static/js/bootstrap/bootstrap-datepicker.min.js}"></script>
 <script type="text/javascript">
+    function DatePicker(beginSelector, endSelector) {
+        // 仅选择日期
+        $(beginSelector).datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight : true,
+            startDate: new Date()
+        }).on('changeDate', function (ev) {
+            if (ev.date) {
+                var date = new Date(ev.date.valueOf());
+                var plus = 3 * (1000 * 60 * 60 * 24);
+                $(endSelector).datepicker('setDate', new Date(date.getTime() + plus));
+                $(endSelector).datepicker('setStartDate', new Date(ev.date.valueOf()));
+            } else {
+                $(endSelector).datepicker('setStartDate', null);
+            }
+        });
+        $(endSelector).datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight : true,
+            startDate: new Date()
+        }).on('changeDate', function (ev) {
+            if (ev.date) {
+                $(beginSelector).datepicker('setEndDate', new Date(ev.date.valueOf()))
+            } else {
+                $(beginSelector).datepicker('setEndDate', new Date());
+            }
+        });
+    }
+    DatePicker( '#startTime', '#endTime');
+
     /**
      *图片上传功能
      */
@@ -132,20 +181,28 @@
         //alert($('#goodsAddForm').serialize());
         $.ajax({
             type: "POST",
-            url: path + "/manage/addGoods",
+            url: path + "manage/editGoods",
             data: $('#goodsAddForm').serialize(),
             async: false,
-            success: function (data) {
+            success: function (result) {
                 //商品添加成功
-                window.location.href = path + 'manage/goodListHtml';
+                if (result.code == 0) {
+                    window.location.href = path + 'manage/goodListHtml';
+                } else {
+                    toastr.error(result.msg);
+                }
 
             },
             error: function (request) {
-                toastr.error("上传失败");
+                toastr.error("编辑失败");
             }
 
         });
     }
+
+    $("#cancelBtn").click(function () {
+        window.location.href = path + 'manage/goodListHtml';
+    });
 </script>
 </body>
 </html>

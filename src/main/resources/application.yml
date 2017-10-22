@@ -21,3 +21,10 @@ spring:
             classpath:/static/ueditor/
 server:
   context-path: /tkGoods
+
+#图片根路径
+uploadImage:
+  root: F:/
+  path: images/
+
+

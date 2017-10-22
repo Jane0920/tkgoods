@@ -17,7 +17,8 @@ public enum ResultEnum {
     GOODS_NOT_EXIT(7, "商品不存在"),
     UPDATE_FAILURE(8, "更新失败"),
     DELETE_FAILURE(9, "删除失败"),
-    DATE_NOT_SET(10, "时间不能为空")
+    DATE_NOT_SET(10, "时间不能为空"),
+    CONTENT_IS_EMPTY(11, "内容不能为空")
     ;
 
     private int code;

@@ -79,6 +79,8 @@ function initTable(userId) {
                 field:'image',
                 align: 'center',
                 formatter: function(value,row,index){
+                    if (value.indexOf("images/") == 0)
+                        value = path + value;
                     return '<img style="height: 60px;width: 60px;" src="'+ value +'">';
                 }
             },
@@ -167,7 +169,8 @@ function operateFormatter(value,row,index){
 
 window.operateEvents = {
     'click .editGood': function (e, value, row, index) { //编辑
-
+        var id = row.id;
+        window.location.href = BASE_URL + "/editGoodHtml/" + id;
     },'click .checkGood': function (e, value, row, index) { //审核
         var id = row.id;
         //alert(id);

@@ -164,6 +164,9 @@
     }
     DatePicker( '#startTime', '#endTime');
 </script>
+<script th:inline="javascript">
+    path = /*[[@{/}]]*/ "";
+</script>
 <script src="../../static/js/goodList.js" th:src="@{/static/js/goodList.js}"></script>
 </body>
 </html>

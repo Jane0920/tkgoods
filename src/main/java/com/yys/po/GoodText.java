@@ -1,8 +1,11 @@
 package com.yys.po;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.yys.config.ImageConfig;
+import com.yys.enums.GoodStatusEnum;
 import com.yys.util.serialize.LocalDate2StrSerialize;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
@@ -37,8 +40,7 @@ public class GoodText {
     /**
      * 商品状态 0-未审核，1-审核通过（前台显示），2-审核失败
      */
-    @JsonSerialize()
-    private int status;
+    private int status = GoodStatusEnum.UNCHECK.getCode();
 
     /**
      * 创建者id
@@ -84,7 +86,14 @@ public class GoodText {
     /**
      * 是否被创建者删除
      */
-    private boolean hasDelete;
+    private boolean hasDelete = false;
+
+    public String imageSrc(ImageConfig imageConfig) {
+        if (image != null && image.startsWith(imageConfig.getPath())) {
+            return imageConfig.getRoot() + image;
+        } else
+            return image;
+    }
 
     /*public static List<Selection<GoodText, ?>> getSelection() {
         return Arrays.asList(

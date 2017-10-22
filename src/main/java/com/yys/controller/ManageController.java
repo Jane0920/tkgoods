@@ -1,5 +1,6 @@
 package com.yys.controller;
 
+import com.yys.config.ImageConfig;
 import com.yys.enums.GoodStatusEnum;
 import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
@@ -8,6 +9,7 @@ import com.yys.po.User;
 import com.yys.service.GoodTextService;
 import com.yys.vo.PageModel;
 import com.yys.vo.ResultVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by xyr on 2017/10/19.
@@ -33,6 +36,8 @@ public class ManageController {
 
     @Autowired
     private GoodTextService goodTextService;
+    @Autowired
+    private ImageConfig imageConfig;
 
     /**
      * 转入商品列表管理页面
@@ -105,8 +110,8 @@ public class ManageController {
         }
 
         try {
-            return goodTextService.updateGoodStatus(id, status, startTime == null? null:Date2LocalDate(startTime),
-                    endTime == null? null:Date2LocalDate(endTime));
+            return goodTextService.updateGoodStatus(id, status, startTime == null? null: date2LocalDate(startTime),
+                    endTime == null? null: date2LocalDate(endTime));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultVo.error(ResultEnum.UPDATE_FAILURE.getCode(), ResultEnum.UPDATE_FAILURE.getMessage());
@@ -114,6 +119,12 @@ public class ManageController {
 
     }
 
+    /**
+     * 删除商品
+     * @param login 登录者
+     * @param id 商品id
+     * @return
+     */
     @RequestMapping("/deleteGood/{id}")
     @ResponseBody
     public ResultVo deleteGood(@AuthenticationPrincipal Login login, @PathVariable String id) {
@@ -128,7 +139,69 @@ public class ManageController {
         }
     }
 
-    private LocalDate Date2LocalDate(Date date) {
+    /**
+     * 添加商品
+     * @param login 登录者
+     * @param text 文本
+     * @param image 图片
+     * @return
+     */
+    @RequestMapping("/addGoods")
+    @ResponseBody
+    public ResultVo addGood(@AuthenticationPrincipal Login login, String text, String image) {
+        if (StringUtils.isBlank(text) || StringUtils.isBlank(image))
+            return ResultVo.error(ResultEnum.CONTENT_IS_EMPTY.getCode(), ResultEnum.CONTENT_IS_EMPTY.getMessage());
+
+        try {
+            return goodTextService.addGood(text, image, login);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());
+        }
+    }
+
+    /**
+     * 返回商品到编辑页面
+     * @param id 商品id
+     * @param map
+     * @return
+     */
+    @RequestMapping("/editGoodHtml/{id}")
+    public String editGoodHtml(@PathVariable String id, Map<String, Object> map) {
+        GoodText goodText = goodTextService.findOne(id);
+        if (goodText == null) {
+            map.put("msg", "未找到该商品");
+            return "manage/goodList";
+        }
+
+        map.put("good", goodText);
+        map.put("imageConfig", imageConfig);
+        return "manage/editGoodText";
+    }
+
+    /**
+     * 编辑商品
+     * @param id 商品id
+     * @param text 文本
+     * @param image 图片路径
+     * @param startTime 开始时间
+     * @param endTime 过期时间
+     * @return
+     */
+    @RequestMapping("/editGoods")
+    @ResponseBody
+    public ResultVo editGood(String id, String text, String image,
+                             Date startTime, Date endTime) {
+        try {
+            return goodTextService.updateGoodText(id, text, image, startTime == null ? null : date2LocalDate(startTime),
+                    endTime == null ? null : date2LocalDate(endTime));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());
+        }
+    }
+
+    private LocalDate date2LocalDate(Date date) {
         Instant instant = date.toInstant();
         ZoneId zone = ZoneId.systemDefault();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);

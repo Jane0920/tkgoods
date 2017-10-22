@@ -1,5 +1,6 @@
 package com.yys.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,10 +13,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    private ImageConfig imageConfig;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/images/*").addResourceLocations("file:F:/images/");
+        registry.addResourceHandler("/images/*").addResourceLocations("file:" + imageConfig.rootPath());
+        registry.addResourceHandler("/manage/images/*").addResourceLocations("file:" + imageConfig.rootPath());
     }
 
 }

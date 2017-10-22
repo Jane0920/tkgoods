@@ -1,8 +1,10 @@
 package com.yys.controller;
 
+import com.yys.config.ImageConfig;
 import com.yys.vo.PictureResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +28,15 @@ public class UploadController {
 
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
-    public static final String ROOT = "F:/images/";
+    //public static final String ROOT = "F:/images/";
 
     public static final String SCHEME_SUFFEX = "://";
 
     public static final String SEPARATE_SERVER_PORT = ":";
+
+    @Autowired
+    private ImageConfig imageConfig;
+
     /**
      * 文件上传
      * web:
@@ -58,12 +64,12 @@ public class UploadController {
             String originalFilename = uploadFile.getOriginalFilename();
             String newFileName = fileName
                     + originalFilename.substring(originalFilename.lastIndexOf("."));
-            File fileDir = new File(ROOT);
+            File fileDir = new File(imageConfig.rootPath());
             if(!fileDir.exists()){
                 fileDir.setWritable(true);
                 fileDir.mkdirs();
             }
-            File targetFile = new File(ROOT, newFileName);
+            File targetFile = new File(imageConfig.rootPath(), newFileName);
             try {
                 uploadFile.transferTo(targetFile);
 
