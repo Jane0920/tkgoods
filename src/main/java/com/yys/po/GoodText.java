@@ -89,9 +89,9 @@ public class GoodText {
     private boolean hasDelete = false;
 
     public String imageSrc(ImageConfig imageConfig) {
-        if (image != null && image.startsWith(imageConfig.getPath())) {
-            return imageConfig.getRoot() + image;
-        } else
+        /*if (image != null && image.startsWith(imageConfig.getPath())) {
+            return "tkGoods/" + image;
+        } else*/
             return image;
     }
 

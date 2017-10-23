@@ -23,7 +23,7 @@
             <div style="float: left">
                 <span>
                     <th:block sec:authorize="!isAnonymous() && isAuthenticated()">
-                    <span>admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
+                    <span sec:authentication="name">admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
                         href="index.html"
                         th:href="@{/manage/logout}">退出</a>&nbsp;&nbsp; <a
                         href="index.html"
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <label class="col-sm-2">商品图片：</label>
                         <div class="col-sm-10">
-                            <input type="file" accept="image/*" id="uploadFile" name="uploadFile"
+                            <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png" id="uploadFile" name="uploadFile"
                                    onChange="submitPic()">
                             <a class="btn btn-info" href="javascript:void(0);">上传商品图片</a>
                             <p class="help-block">支持jpg、jpeg、png。大小不超过2M，建议尺寸：240 X 240px</p>
