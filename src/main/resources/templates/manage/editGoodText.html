@@ -145,7 +145,34 @@
         images_upload_url: path + 'upload/tinyImage',
         // we override default upload handler to simulate successful upload
 //        images_upload_handler: function (blobInfo, success, failure) {
-//            alert(blobInfo);
+//            var xhr, formData;
+//
+//            xhr = new XMLHttpRequest();
+//            xhr.withCredentials = false;
+//            xhr.open('POST', path + 'upload/tinyImage');
+//
+//            xhr.onload = function() {
+//                var json;
+//
+//                if (xhr.status != 200) {
+//                    failure('HTTP Error: ' + xhr.status);
+//                    return;
+//                }
+//
+//                json = JSON.parse(xhr.responseText);
+//
+//                if (!json || typeof json.location != 'string') {
+//                    failure('Invalid JSON: ' + xhr.responseText);
+//                    return;
+//                }
+//
+//                success(json.location);
+//            };
+//
+//            formData = new FormData();
+//            formData.append('file', blobInfo.blob(), blobInfo.filename());
+//
+//            xhr.send(formData);
 //        },
 //
 //        init_instance_callback: function (ed) {
