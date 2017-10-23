@@ -1,8 +1,10 @@
 package com.yys.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yys.config.ImageConfig;
 import com.yys.vo.PictureResult;
+import me.jiangcai.lib.resource.service.ResourceService;
 import me.jiangcai.lib.seext.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,19 @@ import java.util.UUID;
 @RequestMapping("/upload")
 public class UploadController {
 
+    private static final Logger log = LoggerFactory.getLogger(UploadController.class);
+
+    //public static final String ROOT = "F:/images/";
+
+    public static final String SCHEME_SUFFEX = "://";
+
+    public static final String SEPARATE_SERVER_PORT = ":";
+
+    @Autowired
+    private ImageConfig imageConfig;
+    @Autowired
+    private ResourceService resourceService;
+
     /**
      * 为tiny mce 专门设计的图片上传者
      * <a href="https://www.tinymce.com/docs/get-started/upload-images/">More</a>
@@ -46,12 +61,15 @@ public class UploadController {
     @RequestMapping(value = "/tinyImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> tinyUpload(MultipartFile file) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
             try (InputStream inputStream = file.getInputStream()) {
-                String path = "watch/" + UUID.randomUUID().toString().replaceAll("-", "") + "." + FileUtils.fileExtensionName(file.getOriginalFilename());
+                //String path = "watch/" + UUID.randomUUID().toString().replaceAll("-", "") + "." + FileUtils.fileExtensionName(file.getOriginalFilename());
+                String path = UUID.randomUUID().toString().replaceAll("-", "") + "." + FileUtils.fileExtensionName(file.getOriginalFilename());
                 resourceService.uploadResource(path, inputStream);
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("location", resourceService.getResource(path).httpUrl().toString());
+
                 return ResponseEntity
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -66,17 +84,6 @@ public class UploadController {
                     .body(objectMapper.writeValueAsString(body));
         }
     }
-
-    private static final Logger log = LoggerFactory.getLogger(UploadController.class);
-
-    //public static final String ROOT = "F:/images/";
-
-    public static final String SCHEME_SUFFEX = "://";
-
-    public static final String SEPARATE_SERVER_PORT = ":";
-
-    @Autowired
-    private ImageConfig imageConfig;
 
     /**
      * 文件上传

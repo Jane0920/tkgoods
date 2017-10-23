@@ -50,16 +50,21 @@
             </div>
             <div class="col-xs-9">
 
-                <form id="goodsAddForm" th:action="@{/upload/uploadPic}" method="post" enctype="multipart/form-data">
+                <form id="goodsAddForm" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"> 商品文案: </label>
+                        <!--<label class="col-sm-2 control-label"> 商品文案: </label>
 
                         <div class="col-sm-10">
                             <textarea type="text" id="text" name="text" placeholder="商品文案"></textarea>
-                        </div>
+                        </div>-->
+                        <label>
+                            富文本
+                            <textarea class="editor" name="richText"
+                            ></textarea>
+                        </label>
                     </div>
 
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label class="col-sm-2">商品图片：</label>
                         <div class="col-sm-10">
                             <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png" id="uploadFile" name="uploadFile"
@@ -72,7 +77,7 @@
 
                             <input type="hidden" id="image" name="image"/>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="clearfix">
                         <div class="col-md-offset-3 col-md-9 form-action">
                             <a class="btn btn-info" onclick="submitGoods()">
@@ -99,6 +104,41 @@
 <!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/kindeditor-all-min.js" th:src="@{/static/js/kindeditor-4.1.10/kindeditor-all-min.js}"></script>-->
 <!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/lang/zh_CN.js" th:src="@{/static/js/kindeditor-4.1.10/lang/zh_CN.js}"></script>-->
 <!--<script type="text/javascript" src="../../static/js/common.js"   th:src="@{/static/js/common.js}"></script>-->
+<script src="//cdn.lmjia.cn/tinymce_4.7.1/js/tinymce/tinymce.min.js"></script>
+<script src="//cdn.lmjia.cn/tinymce_4.7.1/js/tinymce/jquery.tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea.editor',
+        language: 'zh_CN',
+        height: 500,
+        width: 900,
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste imagetools image code"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+        imagetools_cors_hosts: ['test.lmjia.cn', 'app.lmjia.cn', 'localhost'],
+        // without images_upload_url set, Upload tab won't show up
+        images_upload_url: path + 'upload/tinyImage'
+        // we override default upload handler to simulate successful upload
+//        images_upload_handler: function (blobInfo, success, failure) {
+//            setTimeout(function () {
+//                // no matter what you upload, we will turn it into TinyMCE logo :)
+//                success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+//            }, 2000);
+//        },
+//
+//        init_instance_callback: function (ed) {
+//            ed.execCommand('mceImage');
+//        }
+//        content_css: [
+//            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+//            '//www.tinymce.com/css/codepen.min.css'
+//        ]
+
+    });
+</script>
 <script src="../../static/js/jquery.form.js" th:src="@{/static/js/jquery.form.js}"></script>
 <script type="text/javascript">
     /**
@@ -129,11 +169,13 @@
     }
 
     function submitGoods() {
-        //alert($('#goodsAddForm').serialize());
+        alert(tinymce.activeEditor.getContent());
         $.ajax({
             type: "POST",
             url: path + "/manage/addGoods",
-            data: $('#goodsAddForm').serialize(),
+            data: {
+                richText: tinymce.activeEditor.getContent()
+            },
             async: false,
             success: function (data) {
                 //商品添加成功

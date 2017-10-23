@@ -53,8 +53,13 @@
             <div class="col-xs-9">
                 <!--/*@thymesVar id="good" type="com.yys.po.GoodText"*/-->
                 <!--/*@thymesVar id="imageConfig" type="com.yys.config.ImageConfig"*/-->
+                <label>
+                    富文本
+                    <textarea class="editor" name="richText"
+                    ></textarea>
+                </label>
                 <form id="goodsAddForm" th:action="@{/upload/uploadPic}" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <label class="col-sm-2 control-label"> 商品文案: </label>
 
                         <div class="col-sm-10">
@@ -76,6 +81,10 @@
 
                             <input type="hidden" id="image" name="image"/>
                         </div>
+                    </div>-->
+                    <div class="form-group">
+                        <input name="id" th:value="${good.id}" type="hidden" />
+                        <input name="richText" th:value="${good.richText}" type="hidden" />
                     </div>
 
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -115,9 +124,42 @@
 <!--<script type="text/javascript" src="../../static/js/kindeditor-4.1.10/lang/zh_CN.js" th:src="@{/static/js/kindeditor-4.1.10/lang/zh_CN.js}"></script>-->
 <!--<script type="text/javascript" src="../../static/js/common.js"   th:src="@{/static/js/common.js}"></script>-->
 <script src="../../static/js/jquery.form.js" th:src="@{/static/js/jquery.form.js}"></script>
+<script src="//cdn.lmjia.cn/tinymce_4.7.1/js/tinymce/tinymce.min.js"></script>
+<script src="//cdn.lmjia.cn/tinymce_4.7.1/js/tinymce/jquery.tinymce.min.js"></script>
 <script src="../../static/js/jquery/toastr.js" th:src="@{/static/js/jquery/toastr.js}"></script>
 <script src="../../static/js/bootstrap/bootstrap-datepicker.min.js" th:src="@{/static/js/bootstrap/bootstrap-datepicker.min.js}"></script>
 <script type="text/javascript">
+    tinymce.init({
+        selector: 'textarea.editor',
+        language: 'zh_CN',
+        height: 500,
+        width: 900,
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste imagetools image code"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+        imagetools_cors_hosts: ['test.lmjia.cn', 'app.lmjia.cn', 'localhost'],
+        // without images_upload_url set, Upload tab won't show up
+        images_upload_url: path + 'upload/tinyImage',
+        // we override default upload handler to simulate successful upload
+//        images_upload_handler: function (blobInfo, success, failure) {
+//            alert(blobInfo);
+//        },
+//
+//        init_instance_callback: function (ed) {
+//            ed.execCommand('mceImage');
+//        }
+//        content_css: [
+//            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+//            '//www.tinymce.com/css/codepen.min.css'
+//        ]
+
+    });
+    $(function () {
+        $(".editor").html($('input[name="richText"]').val());
+    })
     function DatePicker(beginSelector, endSelector) {
         // 仅选择日期
         $(beginSelector).datepicker({
@@ -182,7 +224,12 @@
         $.ajax({
             type: "POST",
             url: path + "manage/editGoods",
-            data: $('#goodsAddForm').serialize(),
+            data: {
+                richText: tinymce.activeEditor.getContent(),
+                startTime: $("#startTime").val(),
+                endTime: $("#endTime").val(),
+                id: $('input[name="id"]').val()
+            },
             async: false,
             success: function (result) {
                 //商品添加成功

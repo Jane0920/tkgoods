@@ -38,11 +38,17 @@ $("#yesBtn").click(function () {
 
 $("#noBtn").click(function () {
     //alert("审核失败，" + $("#goodId").val());
+    var reason = $("#reason").val();
+    if (reason == null || reason.trim() == '') {
+        toastr.error("请填写拒绝理由");
+        return;
+    }
     var id = $("#goodIdCheck").val();
     $.ajax(BASE_URL + "/checkGood/" + id, {
         method: 'post',
         data:{
-            status: 2
+            status: 2,
+            reason: reason
         },
         success: function (result) {
             if (result.code == 0) {
@@ -74,7 +80,7 @@ function initTable(userId) {
                 sortable:true,
                 visible:false
             },
-            {
+            /*{
                 title:'图片',
                 field:'image',
                 align: 'center',
@@ -83,12 +89,23 @@ function initTable(userId) {
                         value = path + value;
                     return '<img style="height: 60px;width: 60px;" src="'+ value +'">';
                 }
-            },
+            },*/
             {
-                title:'文本',
-                field:'text',
+                title:'内容',
+                field:'richText',
                 class:'overFlow',
-                align: 'center'
+                align: 'center',
+                formatter: function (value,row,index) {
+                    var arr = [];
+                    arr.push('<button class="btn btn-primary showGood">预览</button> ');
+                    return arr;
+                },
+                events: {
+                     'click .showGood': function (e, value, row, index) { //审核
+                         $("#content").html(value);
+                         $("#showModal").modal('show');
+                     }
+                }
             },
             {
                 title:'状态',
@@ -102,6 +119,11 @@ function initTable(userId) {
                     else
                         return "审核失败";
                 }
+            },
+            {
+                title:'失败理由',
+                field:'reason',
+                align:'center',
             },
             {
                 title:'来源',
@@ -180,8 +202,9 @@ window.operateEvents = {
         $.ajax(BASE_URL + "/goodDetail/" + id, {
             method: 'get',
             success: function (result) {
-                $("#goodImgCheck").attr("src", result.data.image);
-                $("#goodTextCheck").val(result.data.text);
+                /*$("#goodImgCheck").attr("src", result.data.image);
+                $("#goodTextCheck").val(result.data.text);*/
+                $("#richText").html(result.data.richText);
                 $("#checkModal").modal('show');
             }
         });

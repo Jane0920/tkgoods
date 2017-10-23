@@ -46,12 +46,12 @@ public interface GoodTextService {
      */
     GoodText goodDetail(String id);
 
-    ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime) throws Exception;
+    ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime, String reason) throws Exception;
 
     /**
      * 更新商品
      */
-    ResultVo updateGoodText(String id, String text, String image,
+    ResultVo updateGoodText(String id, String richText,
                             LocalDate startTime, LocalDate endTime) throws Exception;
 
     /**
@@ -77,4 +77,5 @@ public interface GoodTextService {
      */
     ResultVo addGood(String text, String image, Login login) throws Exception;
 
+    ResultVo addGood(String richText, Login login) throws Exception;
 }

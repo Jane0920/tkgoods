@@ -87,7 +87,7 @@ public class GoodTextServiceImpl implements GoodTextService {
 
     @Override
     @Transactional
-    public ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime) throws Exception {
+    public ResultVo updateGoodStatus(String id, int status, LocalDate startTime, LocalDate endTime, String reason) throws Exception {
         //获取商品
         GoodText goodText = goodTextRepository.findOne(id);
         if (goodText == null) {
@@ -98,6 +98,8 @@ public class GoodTextServiceImpl implements GoodTextService {
         if (status == GoodStatusEnum.CHECKSUCCESS.getCode()) {
             goodText.setStartTime(startTime);
             goodText.setEndTime(endTime);
+        } else {
+            goodText.setReason(reason);
         }
         goodText.setUpdateTime(LocalDateTime.now());
 
@@ -108,7 +110,7 @@ public class GoodTextServiceImpl implements GoodTextService {
 
     @Override
     @Transactional
-    public ResultVo updateGoodText(String id, String text, String image,
+    public ResultVo updateGoodText(String id, String richText,
                                    LocalDate startTime, LocalDate endTime) throws Exception {
         //获取商品
         GoodText goodText = goodTextRepository.getOne(id);
@@ -116,18 +118,19 @@ public class GoodTextServiceImpl implements GoodTextService {
             return ResultVo.error(ResultEnum.GOODS_NOT_EXIT.getCode(), ResultEnum.GOODS_NOT_EXIT.getMessage());
 
         //查看image和数据库中的image是否一致，不一致删除之前的图片
-        if (image != null && !image.equals(goodText.getImage()))
-            imageService.deleteImage(goodText.getImage());
+        /*if (image != null && !image.equals(goodText.getImage()))
+            imageService.deleteImage(goodText.getImage());*/
 
         //更新商品
-        goodText.setText(text);
+        goodText.setRichText(richText);
         goodText.setUpdateTime(LocalDateTime.now());
-        if (StringUtils.isNotBlank(image))
-            goodText.setImage(image);
+        /*if (StringUtils.isNotBlank(image))
+            goodText.setImage(image);*/
         if (startTime != null)
             goodText.setStartTime(startTime);
         if (endTime != null)
             goodText.setEndTime(endTime);
+        goodText.setStatus(GoodStatusEnum.UNCHECK.getCode());
         //保存更新到数据库
         goodText = goodTextRepository.saveAndFlush(goodText);
         return ResultVo.success(goodText);
@@ -160,6 +163,20 @@ public class GoodTextServiceImpl implements GoodTextService {
         goodText.setId(UUID.randomUUID().toString());
         goodText.setText(text);
         goodText.setImage(image);
+        goodText.setUserId(login.getId());
+        goodText.setUsername(login.getUsername());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        goodText.setCreateTime(localDateTime);
+        goodText.setUpdateTime(localDateTime);
+        goodText = goodTextRepository.saveAndFlush(goodText);
+        return ResultVo.success(goodText);
+    }
+
+    @Override
+    public ResultVo addGood(String richText, Login login) throws Exception {
+        GoodText goodText = new GoodText();
+        goodText.setId(UUID.randomUUID().toString());
+        goodText.setRichText(richText);
         goodText.setUserId(login.getId());
         goodText.setUsername(login.getUsername());
         LocalDateTime localDateTime = LocalDateTime.now();

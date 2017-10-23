@@ -31,6 +31,7 @@ public class PropertiesConfig {
         return bean;
     }*/
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
 

@@ -38,6 +38,18 @@ public class GoodText {
     private String image;
 
     /**
+     * 富文本
+     */
+    @Lob
+    private String richText;
+
+    /**
+     * 拒绝理由
+     */
+    @Lob
+    private String reason;
+
+    /**
      * 商品状态 0-未审核，1-审核通过（前台显示），2-审核失败
      */
     private int status = GoodStatusEnum.UNCHECK.getCode();

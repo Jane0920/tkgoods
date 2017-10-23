@@ -95,12 +95,13 @@ public class ManageController {
      * @param status 审核后的状态
      * @param startTime 展示时间
      * @param endTime 过期时间
+     * @param reason 拒绝理由
      * @return
      */
     @RequestMapping("/checkGood/{id}")
     @ResponseBody
     public ResultVo checkGood(@AuthenticationPrincipal Login login, @PathVariable String id,
-                              int status, Date startTime, Date endTime) {
+                              int status, Date startTime, Date endTime, String reason) {
 
         //判断登录者身份
         if (login instanceof User)
@@ -111,7 +112,7 @@ public class ManageController {
 
         try {
             return goodTextService.updateGoodStatus(id, status, startTime == null? null: date2LocalDate(startTime),
-                    endTime == null? null: date2LocalDate(endTime));
+                    endTime == null? null: date2LocalDate(endTime), reason);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultVo.error(ResultEnum.UPDATE_FAILURE.getCode(), ResultEnum.UPDATE_FAILURE.getMessage());
@@ -142,18 +143,17 @@ public class ManageController {
     /**
      * 添加商品
      * @param login 登录者
-     * @param text 文本
-     * @param image 图片
+     * @param richText 文本
      * @return
      */
     @RequestMapping("/addGoods")
     @ResponseBody
-    public ResultVo addGood(@AuthenticationPrincipal Login login, String text, String image) {
-        if (StringUtils.isBlank(text) || StringUtils.isBlank(image))
+    public ResultVo addGood(@AuthenticationPrincipal Login login, String richText) {
+        if (StringUtils.isBlank(richText))
             return ResultVo.error(ResultEnum.CONTENT_IS_EMPTY.getCode(), ResultEnum.CONTENT_IS_EMPTY.getMessage());
 
         try {
-            return goodTextService.addGood(text, image, login);
+            return goodTextService.addGood(richText, login);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());
@@ -182,18 +182,17 @@ public class ManageController {
     /**
      * 编辑商品
      * @param id 商品id
-     * @param text 文本
-     * @param image 图片路径
+     * @param richText 文本
      * @param startTime 开始时间
      * @param endTime 过期时间
      * @return
      */
     @RequestMapping("/editGoods")
     @ResponseBody
-    public ResultVo editGood(String id, String text, String image,
+    public ResultVo editGood(String id, String richText,
                              Date startTime, Date endTime) {
         try {
-            return goodTextService.updateGoodText(id, text, image, startTime == null ? null : date2LocalDate(startTime),
+            return goodTextService.updateGoodText(id, richText, startTime == null ? null : date2LocalDate(startTime),
                     endTime == null ? null : date2LocalDate(endTime));
         } catch (Exception e) {
             e.printStackTrace();

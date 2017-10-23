@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.0.4</thymeleaf-layout-dialect.version>
+		<jiangcai.version>2.2</jiangcai.version>
 	</properties>
 
 	<dependencies>
@@ -111,6 +112,11 @@
 			<groupId>org.luffy.libs</groupId>
 			<artifactId>libseext</artifactId>
 			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>me.jiangcai.lib</groupId>
+			<artifactId>resource</artifactId>
+			<version>${jiangcai.version}</version>
 		</dependency>
 	</dependencies>
 
