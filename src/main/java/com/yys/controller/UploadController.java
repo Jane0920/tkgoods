@@ -1,13 +1,18 @@
 package com.yys.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yys.config.ImageConfig;
 import com.yys.vo.PictureResult;
+import me.jiangcai.lib.seext.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,9 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by 鲁源源 on 2017/10/20.
@@ -25,6 +33,39 @@ import java.util.Random;
 @Controller
 @RequestMapping("/upload")
 public class UploadController {
+
+    /**
+     * 为tiny mce 专门设计的图片上传者
+     * <a href="https://www.tinymce.com/docs/get-started/upload-images/">More</a>
+     * TODO 缺少fasterXML的支持，以及resourceService；你们可以自行增加
+     *
+     * @param file
+     * @return
+     * @throws JsonProcessingException
+     */
+    @RequestMapping(value = "/tinyImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> tinyUpload(MultipartFile file) throws JsonProcessingException {
+        try {
+            try (InputStream inputStream = file.getInputStream()) {
+                String path = "watch/" + UUID.randomUUID().toString().replaceAll("-", "") + "." + FileUtils.fileExtensionName(file.getOriginalFilename());
+                resourceService.uploadResource(path, inputStream);
+                HashMap<String, Object> body = new HashMap<>();
+                body.put("location", resourceService.getResource(path).httpUrl().toString());
+                return ResponseEntity
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .body(objectMapper.writeValueAsString(body));
+            }
+        } catch (Exception ex) {
+            HashMap<String, Object> body = new HashMap<>();
+            body.put("error", ex.getLocalizedMessage());
+            return ResponseEntity
+                    .badRequest()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .body(objectMapper.writeValueAsString(body));
+        }
+    }
 
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
 
