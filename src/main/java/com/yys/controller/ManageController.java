@@ -7,6 +7,7 @@ import com.yys.po.GoodText;
 import com.yys.po.Login;
 import com.yys.po.User;
 import com.yys.service.GoodTextService;
+import com.yys.util.RichTextImgUtil;
 import com.yys.vo.PageModel;
 import com.yys.vo.ResultVo;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -148,11 +150,20 @@ public class ManageController {
      */
     @RequestMapping("/addGoods")
     @ResponseBody
-    public ResultVo addGood(@AuthenticationPrincipal Login login, String richText) {
+    public ResultVo addGood(@AuthenticationPrincipal Login login, String richText, HttpServletRequest request) {
         if (StringUtils.isBlank(richText))
             return ResultVo.error(ResultEnum.CONTENT_IS_EMPTY.getCode(), ResultEnum.CONTENT_IS_EMPTY.getMessage());
 
         try {
+            StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
+            if (request.getServerPort() != 80) {
+                uri.append(":");
+                uri.append(request.getServerPort());
+            }
+            uri.append(request.getContextPath());
+            if (!uri.toString().endsWith("/"))
+                uri.append("/");
+            richText = RichTextImgUtil.imgConvert(richText, uri.toString());
             return goodTextService.addGood(richText, login);
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,8 +201,17 @@ public class ManageController {
     @RequestMapping("/editGoods")
     @ResponseBody
     public ResultVo editGood(String id, String richText,
-                             Date startTime, Date endTime) {
+                             Date startTime, Date endTime, HttpServletRequest request) {
         try {
+            StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
+            if (request.getServerPort() != 80) {
+                uri.append(":");
+                uri.append(request.getServerPort());
+            }
+            uri.append(request.getContextPath());
+            if (!uri.toString().endsWith("/"))
+                uri.append("/");
+            richText = RichTextImgUtil.imgConvert(richText, uri.toString());
             return goodTextService.updateGoodText(id, richText, startTime == null ? null : date2LocalDate(startTime),
                     endTime == null ? null : date2LocalDate(endTime));
         } catch (Exception e) {
