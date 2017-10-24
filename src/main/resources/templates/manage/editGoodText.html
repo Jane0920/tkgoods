@@ -53,6 +53,7 @@
             <div class="col-xs-9">
                 <!--/*@thymesVar id="good" type="com.yys.po.GoodText"*/-->
                 <!--/*@thymesVar id="imageConfig" type="com.yys.config.ImageConfig"*/-->
+                <input type="hidden" id="goodStatus" value="-1" th:value="${good.status}">
                 <label>
                     富文本
                     <textarea class="editor" name="richText"
@@ -247,10 +248,13 @@
     }
 
     function submitGoods() {
+        var url = path + "manage/editGoods";
+        if ($("#goodStatus").val() == 1)
+            url = path + "manage/editGoods";
         //alert($('#goodsAddForm').serialize());
         $.ajax({
             type: "POST",
-            url: path + "manage/editGoods",
+            url: url,
             data: {
                 richText: tinymce.activeEditor.getContent(),
                 startTime: $("#startTime").val(),

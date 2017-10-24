@@ -40,9 +40,13 @@
     width: 240px;
     height: 240px;
 }
+.goods-content {
+    width: 300px;
+    height: 460px;
+}
 .goods-content div {
     width: 293px;
-    height: 168px;
+    height: 460px;
 }
 .contentImg {
     width: 240px;

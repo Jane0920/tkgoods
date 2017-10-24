@@ -151,32 +151,17 @@
         <div class="row">
             <div class="col-sm-6 col-md-3 goods-item" th:each="gc:${list}">
                 <div class="thumbnail goods-content" >
-                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
-                         alt="通用的占位符缩略图" th:src="${gc.image}" />
-                    <div class="caption">
-                        <p class="divOverflow" th:text="${gc.text}">
-                            【原价98元】券后【38元】包邮
-                            领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c
-
-                            抢购：https://detail.tmall.com/item.htm?id=534732081478
-
-                            智能防水，远程拍照，触控操作，高清双向通
-                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                            智能防水，远程拍照，触控操作，高清双向通
-                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                            智能防水，远程拍照，触控操作，高清双向通
-                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                            智能防水，远程拍照，触控操作，高清双向通
-                            话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                        </p>
+                    <!--<img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                         alt="通用的占位符缩略图" th:src="${gc.image}" />-->
+                    <div class="caption divOverflow" >
+                        <th:block th:utext="${gc.richText}"></th:block>
                     </div>
                 </div>
-                <div class="hoverContent">
-                    <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
+                <div class="hoverContent" th:utext="${gc.richText}">
+                    <!--<img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
                          th:src="${gc.image}" class="contentImg"
-                    ><br>
-                    <th:block th:text="${gc.text}">
-                    【原价98元】券后【38元】包邮
+                    ><br>-->
+                    <!--【原价98元】券后【38元】包邮
                     领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c
 
                     抢购：https://detail.tmall.com/item.htm?id=534732081478
@@ -188,8 +173,7 @@
                     智能防水，远程拍照，触控操作，高清双向通
                     话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
                     智能防水，远程拍照，触控操作，高清双向通
-                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                    </th:block>
+                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航-->
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 goods-item" th:remove="all">

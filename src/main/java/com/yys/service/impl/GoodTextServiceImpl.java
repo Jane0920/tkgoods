@@ -98,6 +98,7 @@ public class GoodTextServiceImpl implements GoodTextService {
         if (status == GoodStatusEnum.CHECKSUCCESS.getCode()) {
             goodText.setStartTime(startTime);
             goodText.setEndTime(endTime);
+            goodText.setReason(null);
         } else {
             goodText.setReason(reason);
         }
@@ -126,11 +127,13 @@ public class GoodTextServiceImpl implements GoodTextService {
         goodText.setUpdateTime(LocalDateTime.now());
         /*if (StringUtils.isNotBlank(image))
             goodText.setImage(image);*/
-        if (startTime != null)
-            goodText.setStartTime(startTime);
-        if (endTime != null)
-            goodText.setEndTime(endTime);
         goodText.setStatus(GoodStatusEnum.UNCHECK.getCode());
+        if (startTime != null && endTime != null) {
+            goodText.setStartTime(startTime);
+            goodText.setEndTime(endTime);
+            goodText.setStatus(GoodStatusEnum.CHECKSUCCESS.getCode());
+        }
+
         //保存更新到数据库
         goodText = goodTextRepository.saveAndFlush(goodText);
         return ResultVo.success(goodText);

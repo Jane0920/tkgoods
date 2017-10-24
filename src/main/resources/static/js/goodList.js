@@ -178,7 +178,8 @@ function initTable(userId) {
 //三个参数，value代表该列的值
 function operateFormatter(value,row,index){
     var arr = [];
-    arr.push('<button class="btn btn-primary editGood">编辑</button> ');
+    if (row.status != 1 || isAdmin)
+        arr.push('<button class="btn btn-primary editGood">编辑</button> ');
     var now = new Date();
     var startTime = new Date(row.startTime);
     var endTime = new Date(row.endTime);
