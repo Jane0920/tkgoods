@@ -28,7 +28,7 @@ public class ResourceConfig {
 
     @Bean
     public ResourceService resourceService() {
-        if (webApplicationContext == null)
+        /*if (webApplicationContext == null)
             throw new IllegalStateException("ResourceService required web Environment.");
         try {
             String serverName = webApplicationContext.getServletContext().getVirtualServerName();
@@ -36,8 +36,9 @@ public class ResourceConfig {
         } catch (AbstractMethodError ignored) {
             uri = "http://localhost";
         }
-        uri = uri  + ":" + port + "/" + prefix;
+        uri = uri  + ":" + port + "/" + prefix;*/
         home += imageConfig.rootPath();
+        uri = imageConfig.getUriRoot();
         ResourceService resourceService = new VFSResourceService(uri, home, port, webApplicationContext, prefix);
         return resourceService;
     }

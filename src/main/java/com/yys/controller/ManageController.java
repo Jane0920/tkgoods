@@ -155,14 +155,15 @@ public class ManageController {
             return ResultVo.error(ResultEnum.CONTENT_IS_EMPTY.getCode(), ResultEnum.CONTENT_IS_EMPTY.getMessage());
 
         try {
-            StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
+            /*StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
             if (request.getServerPort() != 80) {
                 uri.append(":");
                 uri.append(request.getServerPort());
             }
             uri.append(request.getContextPath());
             if (!uri.toString().endsWith("/"))
-                uri.append("/");
+                uri.append("/");*/
+            StringBuilder uri = new StringBuilder(imageConfig.getUriRoot());
             richText = RichTextImgUtil.imgConvert(richText, uri.toString());
             return goodTextService.addGood(richText, login);
         } catch (Exception e) {
@@ -203,14 +204,15 @@ public class ManageController {
     public ResultVo editGood(String id, String richText,
                              Date startTime, Date endTime, HttpServletRequest request) {
         try {
-            StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
+            /*StringBuilder uri = new StringBuilder(request.getScheme()).append("://").append(request.getServerName());
             if (request.getServerPort() != 80) {
                 uri.append(":");
                 uri.append(request.getServerPort());
             }
             uri.append(request.getContextPath());
             if (!uri.toString().endsWith("/"))
-                uri.append("/");
+                uri.append("/");*/
+            StringBuilder uri = new StringBuilder(imageConfig.getUriRoot());
             richText = RichTextImgUtil.imgConvert(richText, uri.toString());
             return goodTextService.updateGoodText(id, richText, startTime == null ? null : date2LocalDate(startTime),
                     endTime == null ? null : date2LocalDate(endTime));

@@ -58,7 +58,7 @@ public class UploadController {
      * @return
      * @throws JsonProcessingException
      */
-    @RequestMapping(value = "/tinyImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/tinyImage",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> tinyUpload(MultipartFile file) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();

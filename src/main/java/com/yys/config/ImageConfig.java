@@ -16,6 +16,8 @@ public class ImageConfig {
 
     private String path;
 
+    private String uriRoot;
+
     public String rootPath() {
         return root + path;
     }

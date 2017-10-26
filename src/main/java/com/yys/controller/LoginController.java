@@ -37,7 +37,7 @@ public class LoginController {
     public String loginPage(Map<String, String> map) {
         map.put("success", "false");
         map.put("message", "您还未登录");
-        return "redirect:/index";
+        return "redirect:index";
     }
 
     @RequestMapping("/login/success")

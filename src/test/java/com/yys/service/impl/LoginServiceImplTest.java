@@ -26,6 +26,7 @@ public class LoginServiceImplTest {
     @Test
     public void loadUserByUsername() throws Exception {
         String password = passwordEncoder.encode("adminYYS123");
+        password = passwordEncoder.encode("12345678");
         loginService.loadUserByUsername("admin");
     }
 
