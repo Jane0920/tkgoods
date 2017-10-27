@@ -4,9 +4,11 @@ import com.yys.config.ImageConfig;
 import com.yys.enums.GoodStatusEnum;
 import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
+import com.yys.po.Image;
 import com.yys.po.Login;
 import com.yys.po.User;
 import com.yys.service.GoodTextService;
+import com.yys.service.ImageService;
 import com.yys.util.RichTextImgUtil;
 import com.yys.vo.PageModel;
 import com.yys.vo.ResultVo;
@@ -28,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by xyr on 2017/10/19.
@@ -40,6 +43,8 @@ public class ManageController {
     private GoodTextService goodTextService;
     @Autowired
     private ImageConfig imageConfig;
+    @Autowired
+    private ImageService imageService;
 
     /**
      * 转入商品列表管理页面
@@ -165,7 +170,9 @@ public class ManageController {
                 uri.append("/");*/
             StringBuilder uri = new StringBuilder(imageConfig.getUriRoot());
             richText = RichTextImgUtil.imgConvert(richText, uri.toString());
-            return goodTextService.addGood(richText, login);
+            ResultVo resultVo = goodTextService.addGood(richText, login);
+
+            return resultVo;
         } catch (Exception e) {
             e.printStackTrace();
             return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());

@@ -3,6 +3,8 @@ package com.yys.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yys.config.ImageConfig;
+import com.yys.po.Image;
+import com.yys.service.ImageService;
 import com.yys.vo.PictureResult;
 import me.jiangcai.lib.resource.service.ResourceService;
 import me.jiangcai.lib.seext.FileUtils;
@@ -48,6 +50,8 @@ public class UploadController {
     private ImageConfig imageConfig;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private ImageService imageService;
 
     /**
      * 为tiny mce 专门设计的图片上传者
@@ -69,6 +73,8 @@ public class UploadController {
                 resourceService.uploadResource(path, inputStream);
                 HashMap<String, Object> body = new HashMap<>();
                 body.put("location", resourceService.getResource(path).httpUrl().toString());
+                //保存上传的图片信息
+                imageService.saveImage(path);
 
                 return ResponseEntity
                         .ok()

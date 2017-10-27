@@ -2,13 +2,17 @@ package com.yys.service.impl;
 
 import com.yys.common.GoodStatusCommon;
 import com.yys.dao.GoodTextRepository;
+import com.yys.dao.ImageRepository;
 import com.yys.enums.GoodStatusEnum;
 import com.yys.enums.ResultEnum;
 import com.yys.po.GoodText;
+import com.yys.po.Image;
 import com.yys.po.Login;
 import com.yys.service.GoodTextService;
 import com.yys.service.ImageService;
+import com.yys.util.RichTextImgUtil;
 import com.yys.vo.ResultVo;
+import me.jiangcai.lib.resource.service.ResourceService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +37,11 @@ public class GoodTextServiceImpl implements GoodTextService {
     @Autowired
     private GoodTextRepository goodTextRepository;
     @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
     private ImageService imageService;
+    @Autowired
+    private ResourceService resourceService;
 
     @Override
     public GoodText findOne(String id) {
@@ -118,9 +126,25 @@ public class GoodTextServiceImpl implements GoodTextService {
         if (goodText == null)
             return ResultVo.error(ResultEnum.GOODS_NOT_EXIT.getCode(), ResultEnum.GOODS_NOT_EXIT.getMessage());
 
-        //查看image和数据库中的image是否一致，不一致删除之前的图片
-        /*if (image != null && !image.equals(goodText.getImage()))
-            imageService.deleteImage(goodText.getImage());*/
+        //获取图片路径
+        String newPath = RichTextImgUtil.getImgPath(richText);
+        //获取数据库中该商品对应的图片路径
+        Image image = imageService.findImageByGoodId(goodText.getId());
+        //查看当前richText中的image和数据库中的image是否一致，不一致删除之前的图片
+        if (image != null && !(image.getPath()).equals(newPath)) {
+            try {
+                resourceService.deleteResource(image.getPath());
+                imageRepository.delete(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        //更新当前商品的id至新的image的goodId中
+        Image newImage = imageService.findImageByPath(newPath);
+        newImage.setGoodId(goodText.getId());
+        imageService.saveImage(newImage);
 
         //更新商品
         goodText.setRichText(richText);
@@ -156,7 +180,7 @@ public class GoodTextServiceImpl implements GoodTextService {
     public ResultVo deleteGood(String id) throws Exception {
         GoodText goodText = goodTextRepository.findOne(id);
         goodTextRepository.delete(id);
-        imageService.deleteImage(goodText.getImage());
+        imageService.deleteImage(id);
         return ResultVo.success();
     }
 
@@ -186,6 +210,13 @@ public class GoodTextServiceImpl implements GoodTextService {
         goodText.setCreateTime(localDateTime);
         goodText.setUpdateTime(localDateTime);
         goodText = goodTextRepository.saveAndFlush(goodText);
+
+        if (goodText != null) { //保存图片相对路径 与图片相关联
+            String imgPath = RichTextImgUtil.getImgPath(richText);
+            Image image = imageService.findImageByPath(imgPath);
+            image.setGoodId(goodText.getId());
+            imageService.saveImage(image);
+        }
         return ResultVo.success(goodText);
     }
 }

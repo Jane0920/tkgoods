@@ -181,6 +181,7 @@ function operateFormatter(value,row,index){
     if (row.status != 1 || isAdmin)
         arr.push('<button class="btn btn-primary editGood">编辑</button> ');
     var now = new Date();
+    now.setHours(0, 0, 0, 0);
     var startTime = new Date(row.startTime);
     var endTime = new Date(row.endTime);
     if (isAdmin && row.status != 1)
