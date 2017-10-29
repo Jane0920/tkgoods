@@ -16,7 +16,9 @@ import me.jiangcai.lib.resource.service.ResourceService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,12 +52,14 @@ public class GoodTextServiceImpl implements GoodTextService {
 
     @Override
     public Page<GoodText> getGood(String searchContent, Pageable pageable) {
+        pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort() == null ?
+                new Sort(Sort.Direction.DESC, "updateTime"): pageable.getSort());
 
         return goodTextRepository.findAll((Root<GoodText> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Predicate predicate = cb.isTrue(cb.literal(true));
 
             if (!StringUtils.isBlank(searchContent))
-                predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), "%" + searchContent + "%"));
+                predicate = cb.and(predicate, cb.like(root.get("richText").as(String.class), "%" + searchContent + "%"));
 
             //在有效期内
             predicate = cb.and(predicate, cb.lessThanOrEqualTo(root.get("startTime").as(LocalDate.class), LocalDate.now()));
@@ -69,6 +73,9 @@ public class GoodTextServiceImpl implements GoodTextService {
 
     @Override
     public Page<GoodText> getGood(String text, int status, String username, boolean isAdmin, Pageable pageable) {
+        pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort() == null ?
+                new Sort(Sort.Direction.DESC, "updateTime"): pageable.getSort());
+
         return goodTextRepository.findAll((Root<GoodText> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Predicate predicate = cb.isTrue(cb.literal(true));
 
@@ -77,7 +84,7 @@ public class GoodTextServiceImpl implements GoodTextService {
             else if (!StringUtils.isBlank(username) && !isAdmin)
                 predicate = cb.and(predicate, cb.equal(root.get("username").as(String.class), username));
             if (!StringUtils.isBlank(text))
-                predicate = cb.and(predicate, cb.like(root.get("text").as(String.class), "%" + text + "%"));
+                predicate = cb.and(predicate, cb.like(root.get("richText").as(String.class), "%" + text + "%"));
             if (status != -1)
                 predicate = cb.and(predicate, cb.equal(root.get("status").as(Integer.class), status));
 

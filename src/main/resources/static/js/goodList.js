@@ -186,7 +186,7 @@ function operateFormatter(value,row,index){
     var endTime = new Date(row.endTime);
     if (isAdmin && row.status != 1)
         arr.push('<button class="btn btn-primary checkGood">审核</button> ');
-    if (row.status != 1 || (row.status == 1 && now > endTime))
+    if (row.status != 1 || (row.status == 1 && now > endTime) || isAdmin)
         arr.push('<button class="btn btn-primary deleteGood">删除</button>');
     return arr.join('');
 }
