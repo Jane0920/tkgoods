@@ -35,20 +35,59 @@
     display: block;
 }
 
-/* 图片比例 */
-.goods-content img {
-    width: 240px;
-    height: 240px;
+/*当电脑屏幕大于1790px时每个商品显示的div大小*/
+@media screen and (min-width: 1790px){
+    /* 图片比例 */
+    .goods-content img {
+        width: 240px;
+        height: 240px;
+    }
+    .goods-content {
+        width: 300px;
+        height: 460px;
+    }
+    .goods-content div {
+        width: 293px;
+        height: 460px;
+    }
+
+    .divOverflow {
+        max-width: 293px;
+        max-height: 450px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 293px;
+        height: 450px;
+    }
 }
-.goods-content {
-    width: 300px;
-    height: 460px;
+
+/*当电脑屏幕大小在989px和1790px之间时每个商品显示的div大小*/
+@media screen and (min-width: 1366px) and (max-width: 1790px){
+    /* 图片比例 */
+    .goods-content img {
+        width: 200px;
+        height: 200px;
+    }
+    .goods-content {
+        width: 214px;
+        height: 410px;
+    }
+    .goods-content div {
+        width: 214px;
+        height: 410px;
+    }
+
+    .divOverflow {
+        max-width: 202px;
+        max-height: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 202px;
+        height: 400px;
+    }
 }
-.goods-content div {
-    width: 293px;
-    height: 460px;
-}
+/*
 .contentImg {
     width: 240px;
     height: 240px;
-}
+}*/
