@@ -133,9 +133,11 @@
     <div class="col-sm-3 search">
         <div class="row">
             <div class="input-group">
-                <input type="text" class="form-control" id="searchContent" />
+                <!--/*@thymesVar id="searchContent" type="java.lang.String"*/-->
+                <input type="text" class="form-control" id="searchContent" th:value="${searchContent}" />
                 <span class="input-group-btn">
                         <button class="btn btn-default" type="button" id="searchBtn">搜索</button>
+                        <button class="btn btn-default" type="button" id="allBtn">全部</button>
                     </span>
             </div>
         </div>

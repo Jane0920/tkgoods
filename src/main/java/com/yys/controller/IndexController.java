@@ -48,6 +48,7 @@ public class IndexController {
 
         Page<GoodText> goodTextPage = goodTextService.getGood(searchContent, pageable);
         model.addAttribute("list", goodTextPage);
+        model.addAttribute("searchContent", searchContent);
 
         return "index";
     }

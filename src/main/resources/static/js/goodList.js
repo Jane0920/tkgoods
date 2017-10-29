@@ -10,6 +10,13 @@ $(function () {
     $("#goodSearch").click(function () {
         initTable(0);
     })
+
+    $("#goodSearchAll").click(function () {
+        $("#goodTextSearch").val("");
+        $("#usernameSearch").val("");
+        $("#statusSearch").val(-1);
+        initTable(0);
+    })
 });
 
 $("#yesBtn").click(function () {

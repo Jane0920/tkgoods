@@ -85,6 +85,10 @@ $(function () {
     $("#searchBtn").click(function () {
         refresh(1);
     });
+    $("#allBtn").click(function () {
+        $("#searchContent").val("");
+        refresh(1);
+    });
     //页码改变
     $(".pagination").find("a").click(function () {
         if (!$(this).hasClass("disabled"))
