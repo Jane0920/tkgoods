@@ -1,18 +1,14 @@
 package com.yys.converter;
 
-import com.yys.util.LocalDateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
  * Created by xyr on 2017/10/20.
  */
+@Slf4j
 public class DateConverter implements Converter<String, Date> {
     @Override
     public Date convert(String source) {
@@ -26,7 +22,7 @@ public class DateConverter implements Converter<String, Date> {
                 try {
                     return simpleDateFormat.parse(source);
                 } catch (Exception e) {
-
+                    log.error("【String转Date】出错：", e);
                     e.printStackTrace();
                     return null;
                 }

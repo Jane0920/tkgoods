@@ -6,6 +6,7 @@ import com.yys.config.ImageConfig;
 import com.yys.po.Image;
 import com.yys.service.ImageService;
 import com.yys.vo.PictureResult;
+import lombok.extern.slf4j.Slf4j;
 import me.jiangcai.lib.resource.service.ResourceService;
 import me.jiangcai.lib.seext.FileUtils;
 import org.slf4j.Logger;
@@ -84,6 +85,7 @@ public class UploadController {
         } catch (Exception ex) {
             HashMap<String, Object> body = new HashMap<>();
             body.put("error", ex.getLocalizedMessage());
+            log.error("【上传图片】异常：", ex);
             return ResponseEntity
                     .badRequest()
                     .contentType(MediaType.APPLICATION_JSON_UTF8)

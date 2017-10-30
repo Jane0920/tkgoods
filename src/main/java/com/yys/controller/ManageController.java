@@ -12,6 +12,7 @@ import com.yys.service.ImageService;
 import com.yys.util.RichTextImgUtil;
 import com.yys.vo.PageModel;
 import com.yys.vo.ResultVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ import java.util.UUID;
 /**
  * Created by xyr on 2017/10/19.
  */
+@Slf4j
 @Controller
 @RequestMapping("/manage")
 public class ManageController {
@@ -121,6 +123,7 @@ public class ManageController {
             return goodTextService.updateGoodStatus(id, status, startTime == null? null: date2LocalDate(startTime),
                     endTime == null? null: date2LocalDate(endTime), reason);
         } catch (Exception e) {
+            log.error("【审核商品】异常：", e);
             e.printStackTrace();
             return ResultVo.error(ResultEnum.UPDATE_FAILURE.getCode(), ResultEnum.UPDATE_FAILURE.getMessage());
         }
@@ -142,6 +145,7 @@ public class ManageController {
             else
                 return goodTextService.deleteGood(id);
         } catch (Exception e) {
+            log.error("【删除商品】异常：", e);
             e.printStackTrace();
             return ResultVo.error(ResultEnum.DELETE_FAILURE.getCode(), ResultEnum.DELETE_FAILURE.getMessage());
         }
@@ -174,6 +178,7 @@ public class ManageController {
 
             return resultVo;
         } catch (Exception e) {
+            log.error("【添加商品】异常：", e);
             e.printStackTrace();
             return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());
         }
@@ -224,6 +229,7 @@ public class ManageController {
             return goodTextService.updateGoodText(id, richText, startTime == null ? null : date2LocalDate(startTime),
                     endTime == null ? null : date2LocalDate(endTime));
         } catch (Exception e) {
+            log.error("【商品编辑】异常：", e);
             e.printStackTrace();
             return ResultVo.error(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage());
         }
