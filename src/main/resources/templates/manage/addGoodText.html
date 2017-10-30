@@ -141,35 +141,9 @@
 </script>
 <script src="../../static/js/jquery.form.js" th:src="@{/static/js/jquery.form.js}"></script>
 <script type="text/javascript">
-    /**
-     *图片上传功能
-     */
-    function submitPic() {
-        var option = {
-            url: path + "upload/uploadPic",//如果不写url就是默认使用要提交的表单中的url
-            dataType: "json",
-            success: function (data) {
-                if (data != null) {
-                    if (data.error == '0') {//上传成功
-                        $("#pic_xm").attr("src", path + data.relativePath);
-                        $("#image").val(data.relativePath);
-                    } else {//上传失败
-                        toastr.error("图片上传失败！");
-                        $("#pic_xm").attr("src", "");
-                        $("#image").val("");
-                    }
-                }
-            },
-            error: function () {
-                toastr.error("上传失败");
-            }
-        };
-        //ajax方式提交表单，页面不会跳转（由jQuery-form提供）
-        $("#goodsAddForm").ajaxSubmit(option);
-    }
 
     function submitGoods() {
-        alert(tinymce.activeEditor.getContent());
+        //alert(tinymce.activeEditor.getContent());
         $.ajax({
             type: "POST",
             url: path + "/manage/addGoods",

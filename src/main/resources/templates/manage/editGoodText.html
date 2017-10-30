@@ -46,7 +46,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><a
                             href="addGoodText.html" th:href="@{/manage/addGoodTextHtml}">添加商品</a></li>
-                    <li role="presentation" class="active"><a
+                    <li role="presentation" class="active"><a id="goodListBtn"
                             href="goodList.html" th:href="@{/manage/goodListHtml}">商品列表</a></li>
                 </ul>
             </div>
@@ -59,7 +59,7 @@
                     <textarea class="editor" name="richText"
                     ></textarea>
                 </label>
-                <form id="goodsAddForm" th:action="@{/upload/uploadPic}" method="post" enctype="multipart/form-data">
+                <form id="goodsAddForm" method="post" enctype="multipart/form-data">
                     <!--<div class="form-group">
                         <label class="col-sm-2 control-label"> 商品文案: </label>
 
@@ -105,9 +105,10 @@
                                 提交审核
                             </a>
                             &nbsp; &nbsp; &nbsp;
-                            <button class="btn" id="cancelBtn">
+                            <a class="btn btn-default" onclick="cancelGoods()">
+                                <i class="icon-ok bigger-110"></i>
                                 取消
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -220,33 +221,6 @@
     }
     DatePicker( '#startTime', '#endTime');
 
-    /**
-     *图片上传功能
-     */
-    function submitPic() {
-        var option = {
-            url: path + "upload/uploadPic",//如果不写url就是默认使用要提交的表单中的url
-            dataType: "json",
-            success: function (data) {
-                if (data != null) {
-                    if (data.error == '0') {//上传成功
-                        $("#pic_xm").attr("src", path + data.relativePath);
-                        $("#image").val(data.relativePath);
-                    } else {//上传失败
-                        toastr.error("图片上传失败！");
-                        $("#pic_xm").attr("src", "");
-                        $("#image").val("");
-                    }
-                }
-            },
-            error: function () {
-                toastr.error("上传失败");
-            }
-        };
-        //ajax方式提交表单，页面不会跳转（由jQuery-form提供）
-        $("#goodsAddForm").ajaxSubmit(option);
-    }
-
     function submitGoods() {
         var url = path + "manage/editGoods";
         if ($("#goodStatus").val() == 1)
@@ -278,10 +252,9 @@
         });
     }
 
-    $("#cancelBtn").click(function () {
-        //window.location.href = path + 'manage/goodListHtml';
-        window.history.go(-1);
-    });
+    function cancelGoods() {
+        window.location.href = path + 'manage/goodListHtml';
+    }
 </script>
 </body>
 </html>

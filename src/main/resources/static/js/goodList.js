@@ -20,7 +20,7 @@ $(function () {
 });
 
 $("#yesBtn").click(function () {
-    alert("审核通过，" + $("#goodIdCheck").val());
+    //alert("审核通过，" + $("#goodIdCheck").val());
     var id = $("#goodIdCheck").val();
     $.ajax(BASE_URL + "/checkGood/" + id, {
        method: 'post',
