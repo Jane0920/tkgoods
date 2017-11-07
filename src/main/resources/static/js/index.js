@@ -2,8 +2,16 @@
  * Created by xyr on 2017/10/17.
  */
 var BASE_URL = "/tkGoods";
-$(function () {
+//判断是否支持一键复制 0 不支持 1 支持
+var ClipboardSupport = 0;
+if (typeof Clipboard !== "undefined") {
+    ClipboardSupport = 1;
+} else {
+    ClipboardSupport = 0;
+}
 
+$(function () {
+    //alert($("#copyInput").html());
     selected();
 
     //注册
@@ -113,5 +121,48 @@ function refresh(pageNumber) {
 function selected() {
     var current = $("select[name='page']").attr('data-select');
     $("select[name='page']  option[value='"+ current +"']").attr("selected", true);
+}
+
+$(".copyBtn").click(function () {
+    if (!ClipboardSupport) {
+        layer.msg('浏览器版本太低，请升级或更换浏览器后重新复制！');
+        //toastr.info('浏览器版本太低，请升级或更换浏览器后重新复制！');
+        return false;
+    }
+
+    var copyDiv = $(this).prev();
+    var content = $('#copyContent');
+
+    if (content.length === 0) {
+        content = $('<div id="copyContent" class="displayNone"></div>');
+        $('body').append(content);
+    }
+    if (copyDiv.length > 0) {
+        content.html(copyDiv.find('.copyInput').html());
+        copyText('.copyBtn', content[0]);
+    } else {
+        layer.msg('太快了，请重新复制！');
+        //toastr.info('太快了，请重新复制！');
+    }
+});
+
+// 设置一键复制, 复制文本
+var hasAlert = 0;
+function copyText(target, copy) {
+    var clipboard = new Clipboard(target, {
+        target: function () {
+            return copy;
+        }
+    });
+
+    clipboard.on('success', function (e) {
+        layer.msg("已复制");
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function (e) {
+        layer.msg('复制失败，请升级或更换浏览器后重新复制！');
+        e.clearSelection();
+    });
 }
 

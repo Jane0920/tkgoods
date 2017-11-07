@@ -26,7 +26,7 @@
                 <th:block sec:authorize="!isAnonymous() && isAuthenticated()">
                     <span sec:authentication="name">admin</span> ,您好，欢迎来到云渊盛 ！&nbsp;&nbsp; <a
                         href="index.html" th:href="@{/logout}">退出</a>
-                <span><a style="margin-left: 10px" id="J_addFavorite" href="manage/goodList.html" th:href="@{/manage/goodListHtml}">进入后台</a></span>
+                <span sec:authorize="hasRole('ROLE_ADMIN')"><a style="margin-left: 10px" id="J_addFavorite" href="manage/goodList.html" th:href="@{/manage/goodListHtml}">进入后台</a></span>
                 </th:block>
             </div>
         </div>
@@ -157,25 +157,12 @@
                          alt="通用的占位符缩略图" th:src="${gc.image}" />-->
                     <div class="caption divOverflow" >
                         <th:block th:utext="${gc.richText}"></th:block>
+                        <div id="copyInput" class="copyInput"><img src="http://101.132.102.102:8080/tkGoods/images/b79ce4defa9144328ce7ced94958a125.jpg" alt="" width="240" height="240" /><br />冬季加厚保暖法兰绒毛毯【120*200cm】<br /> 券后【18元】包邮秒杀<br /> 优惠券：https://shop.m.taobao.com/shop/coupon.htm?seller_id=2086974204&amp;activityId=b40a30457a884eb0854f8a88bbd06107<br /> 商品地址：https://detail.tmall.com/item.htm?id=551607520768<br /> 亲肤柔软舒适，加密加厚，四季可用，不掉色，不掉毛，多色多款式可选；英伦风情，肌肤一触既暖，享受非凡的生活【120*200cm】【赠运费险】</div>
                     </div>
+                    <div class="copyBtn"><button class="btn btn-primary btn-block">复制文案</button></div>
                 </div>
                 <div class="hoverContent" th:utext="${gc.richText}">
-                    <!--<img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
-                         th:src="${gc.image}" class="contentImg"
-                    ><br>-->
-                    <!--【原价98元】券后【38元】包邮
-                    领券：http://shop.m.taobao.com/shop/coupon.htm?sellerId=1022582065&activityId=23f70943b3c644be96831d22585036c
 
-                    抢购：https://detail.tmall.com/item.htm?id=534732081478
-
-                    智能防水，远程拍照，触控操作，高清双向通
-                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                    智能防水，远程拍照，触控操作，高清双向通
-                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                    智能防水，远程拍照，触控操作，高清双向通
-                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
-                    智能防水，远程拍照，触控操作，高清双向通
-                    话，实时定位，语音微聊，国家3C认证，为宝宝成长护航-->
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 goods-item" th:remove="all">
@@ -206,7 +193,7 @@
                     话，实时定位，语音微聊，国家3C认证，为宝宝成长护航
                 </div>
             </div>
-            <div class="col-sm-6 col-md-3 goods-item" th:remove="all">
+            <div class="col-sm-6 col-m d-3 goods-item" th:remove="all">
                 <div class="thumbnail goods-content" >
                     <img src="https://img.alicdn.com/bao/uploaded/i1/121367892/TB1nKowmJqUQKJjSZFIXXcOkFXa_!!0-item_pic.jpg_240x240.jpg"
                          alt="通用的占位符缩略图" />
@@ -405,9 +392,12 @@
     </div>
     <div class="col-sm-2"></div>
 </div>
+<div class="displayNone" id="copyContent"></div>
 <script src="../static/js/jquery/jquery.min.js" th:src="@{/static/js/jquery/jquery.min.js}"></script>
 <script src="../static/js/jquery/jquery.validate.min.js" th:src="@{/static/js/jquery/jquery.validate.min.js}"></script>
 <script src="../static/js/bootstrap/bootstrap.min.js" th:src="@{/static/js/bootstrap/bootstrap.min.js}"></script>
+<script src="../static/js/clipboard.min.js" th:src="@{/static/js/clipboard.min.js}"></script>
+<script src="../static/js/layer.js" th:src="@{/static/js/layer.js}"></script>
 <script src="../static/js/index.js" th:src="@{/static/js/index.js}"></script>
 <script src="../static/js/jquery/toastr.js" th:src="@{/static/js/jquery/toastr.js}"></script>
 <script type="application/javascript">

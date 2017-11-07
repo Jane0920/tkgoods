@@ -35,6 +35,19 @@
     display: block;
 }
 
+.displayNone {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    display: block;
+    filter: alpha(opacity=0);
+    z-index: -1000;
+    overflow: hidden;
+}
+
 /*当电脑屏幕大于1790px时每个商品显示的div大小*/
 @media screen and (min-width: 1790px){
     /* 图片比例 */
@@ -46,14 +59,14 @@
         width: 300px;
         height: 460px;
     }
-    .goods-content div {
+    .goods-content .divOverflow {
         width: 293px;
-        height: 460px;
+        height: 400px;
     }
 
     .divOverflow {
         max-width: 293px;
-        max-height: 450px;
+        max-height: 430px;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 293px;
@@ -72,18 +85,18 @@
         width: 234px;
         height: 410px;
     }
-    .goods-content div {
+    .goods-content .divOverflow {
         width: 234px;
-        height: 410px;
+        height: 350px;
     }
 
     .divOverflow {
         max-width: 202px;
-        max-height: 400px;
+        max-height: 350px;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 202px;
-        height: 400px;
+        height: 380px;
     }
 }
 /*
