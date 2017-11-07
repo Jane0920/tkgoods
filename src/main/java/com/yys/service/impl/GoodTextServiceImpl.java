@@ -211,7 +211,7 @@ public class GoodTextServiceImpl implements GoodTextService {
         GoodText goodText = new GoodText();
         goodText.setId(UUID.randomUUID().toString());
         goodText.setRichText(richText);
-        goodText.setUserId(login.getId());
+        goodText.setUserId(login == null? null:login.getId());
         goodText.setUsername(login.getUsername());
         LocalDateTime localDateTime = LocalDateTime.now();
         goodText.setCreateTime(localDateTime);
